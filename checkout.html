@@ -39,7 +39,7 @@ button{
 
 <div class="box">
 
-<h2>Checkout</h2>
+<h2>Checkout 🌿</h2>
 
 <input id="name" placeholder="Full Name">
 <input id="phone" placeholder="Phone Number">
@@ -55,7 +55,12 @@ function order(){
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    let msg = "Hello, I want to order:%0A";
+    if(cart.length === 0){
+        alert("Cart is empty");
+        return;
+    }
+
+    let msg = "Hello, I want to order:%0A%0A";
 
     cart.forEach(c=>{
         msg += "- " + c.name + " ₦" + c.price + "%0A";
@@ -63,8 +68,11 @@ function order(){
 
     let name = document.getElementById("name").value;
     let phone = document.getElementById("phone").value;
+    let address = document.getElementById("address").value;
 
-    msg += "%0AName: " + name + "%0APhone: " + phone;
+    msg += "%0AName: " + name;
+    msg += "%0APhone: " + phone;
+    msg += "%0AAddress: " + address;
 
     window.open("https://wa.me/234XXXXXXXXXX?text=" + msg);
 
