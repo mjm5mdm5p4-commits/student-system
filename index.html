@@ -1,1 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Student Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<style>
+body{
+    font-family:Arial;
+    background:linear-gradient(135deg,#1d2671,#c33764);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:0;
+}
+
+.box{
+    background:white;
+    padding:25px;
+    width:300px;
+    border-radius:10px;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    background:#1d2671;
+    color:white;
+    border:none;
+}
+button:hover{
+    background:#c33764;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h2>Student Login</h2>
+
+<input id="matric" placeholder="Matric Number">
+<input id="password" type="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+</div>
+
+<script>
+function login(){
+    let m = document.getElementById("matric").value;
+
+    if(m === ""){
+        alert("Enter matric number");
+        return;
+    }
+
+    localStorage.setItem("matric", m);
+    window.location.href = "dashboard.html";
+}
+</script>
+
+</body>
+</html>
