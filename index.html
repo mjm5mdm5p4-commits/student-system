@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Login</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>University Portal Login</title>
+
+<script src="students.js"></script>
 
 <style>
 
@@ -19,14 +20,16 @@ body{
 
 .box{
     background:white;
-    width:320px;
     padding:30px;
     border-radius:12px;
+    width:320px;
     text-align:center;
 }
 
-h2{
-    color:#1d2671;
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
 }
 
 button{
@@ -37,15 +40,10 @@ button{
     border:none;
     border-radius:8px;
     cursor:pointer;
-    font-size:16px;
 }
 
-button:hover{
-    background:#c33764;
-}
-
-p{
-    color:#555;
+.error{
+    color:red;
 }
 
 </style>
@@ -55,15 +53,35 @@ p{
 
 <div class="box">
 
-<h2>Student Portal</h2>
+<h2>University Login</h2>
 
-<p>Click below to continue</p>
+<input id="matric" placeholder="Enter Matric Number">
 
-<a href="dashboard.html">
-    <button>Enter System</button>
-</a>
+<button onclick="login()">Login</button>
+
+<p class="error" id="error"></p>
 
 </div>
+
+<script>
+
+function login(){
+
+    let matric = document.getElementById("matric").value;
+
+    let student = students.find(s => s.matric === matric);
+
+    if(!student){
+        document.getElementById("error").innerText = "Student not found!";
+        return;
+    }
+
+    localStorage.setItem("student", JSON.stringify(student));
+
+    window.location.href = "dashboard.html";
+}
+
+</script>
 
 </body>
 </html>
