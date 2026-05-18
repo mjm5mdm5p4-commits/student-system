@@ -1,90 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard</title>
 
 <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
 body{
-    font-family:Segoe UI, Arial, sans-serif;
-    background:#eef2f7;
+    margin:0;
+    font-family:Arial;
+    background:#f4f6fb;
 }
 
-/* Sidebar */
 .sidebar{
     width:220px;
     height:100vh;
     background:#1d2671;
     position:fixed;
-    padding:20px;
     color:white;
-}
-
-.sidebar h2{
-    text-align:center;
-    margin-bottom:30px;
+    padding:20px;
 }
 
 .sidebar a{
     display:block;
     color:white;
     text-decoration:none;
-    padding:12px;
     margin:10px 0;
-    border-radius:8px;
 }
 
-.sidebar a:hover{
-    background:#c33764;
-}
-
-/* Main */
 .main{
     margin-left:240px;
     padding:20px;
 }
 
-h1{
-    color:#1d2671;
-    margin-bottom:20px;
-}
-
 .card{
     background:white;
     padding:20px;
+    margin:15px 0;
     border-radius:10px;
-    margin-bottom:20px;
     box-shadow:0 3px 10px rgba(0,0,0,0.1);
-}
-
-.course-item{
-    display:inline-block;
-    background:#1d2671;
-    color:white;
-    padding:8px 12px;
-    margin:5px;
-    border-radius:6px;
-}
-
-/* Mobile */
-@media(max-width:768px){
-    .sidebar{
-        width:100%;
-        height:auto;
-        position:relative;
-    }
-
-    .main{
-        margin-left:0;
-    }
 }
 
 </style>
@@ -93,56 +46,64 @@ h1{
 <body>
 
 <div class="sidebar">
-
-<h2>Student Portal</h2>
-
-<a href="index.html">Home</a>
+<h2>Portal</h2>
 <a href="dashboard.html">Dashboard</a>
 <a href="course.html">Courses</a>
 <a href="results.html">Results</a>
-
+<a href="index.html" onclick="logout()">Logout</a>
 </div>
 
 <div class="main">
 
-<h1>Welcome Student 👋</h1>
+<h1>Student Dashboard</h1>
+
+<div class="card" id="profile"></div>
 
 <div class="card">
-
-<h3>Student Information</h3>
-
-<p><strong>Name:</strong> John Doe</p>
-<p><strong>Matric Number:</strong> CSC/2025/001</p>
-<p><strong>Department:</strong> Computer Science</p>
-<p><strong>Level:</strong> 100 Level</p>
-
-</div>
-
-<div class="card">
-
-<h3>Your Selected Courses</h3>
-<div id="courses">Loading...</div>
-
+<h3>Selected Courses</h3>
+<div id="courses"></div>
 </div>
 
 </div>
 
 <script>
 
+let student = JSON.parse(localStorage.getItem("student"));
+
+if(!student){
+    window.location.href = "index.html";
+}
+
+document.getElementById("profile").innerHTML = `
+<h3>Student Profile</h3>
+<p><b>Name:</b> ${student.name}</p>
+<p><b>Matric:</b> ${student.matric}</p>
+<p><b>Department:</b> ${student.dept}</p>
+<p><b>Level:</b> ${student.level}</p>
+`;
+
 let courses = JSON.parse(localStorage.getItem("courses")) || [];
 
 let box = document.getElementById("courses");
 
 if(courses.length === 0){
-    box.innerHTML = "No courses selected yet.";
+    box.innerHTML = "No courses selected";
 }else{
-    box.innerHTML = "";
     courses.forEach(c=>{
         let div = document.createElement("div");
-        div.className = "course-item";
         div.innerText = c;
+        div.style.padding="8px";
+        div.style.background="#1d2671";
+        div.style.color="white";
+        div.style.margin="5px";
+        div.style.display="inline-block";
+        div.style.borderRadius="6px";
         box.appendChild(div);
     });
+}
+
+function logout(){
+    localStorage.removeItem("student");
 }
 
 </script>
