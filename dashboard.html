@@ -17,6 +17,7 @@
 body{
     background:#eef2f7;
     display:flex;
+    transition:0.3s;
 }
 
 /* Sidebar */
@@ -27,6 +28,7 @@ body{
     color:white;
     padding:20px;
     position:fixed;
+    transition:0.3s;
 }
 
 .sidebar h2{
@@ -64,6 +66,7 @@ body{
     justify-content:space-between;
     align-items:center;
     box-shadow:0 3px 10px rgba(0,0,0,0.1);
+    transition:0.3s;
 }
 
 .profile{
@@ -72,17 +75,11 @@ body{
     gap:15px;
 }
 
-.avatar{
-    width:60px;
-    height:60px;
-    border-radius:50%;
-    background:linear-gradient(135deg,#1d2671,#c33764);
+/* Profile Image */
+.avatar-container{
     display:flex;
-    justify-content:center;
+    flex-direction:column;
     align-items:center;
-    color:white;
-    font-size:24px;
-    font-weight:bold;
 }
 
 /* Cards */
@@ -110,11 +107,50 @@ body{
     margin-bottom:10px;
 }
 
+/* Buttons */
+button{
+    padding:10px 15px;
+    border:none;
+    background:#1d2671;
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#c33764;
+}
+
 /* Footer */
 .footer{
     margin-top:30px;
     text-align:center;
     color:#666;
+}
+
+/* Dark Mode */
+.dark{
+    background:#111;
+    color:white;
+}
+
+.dark .card{
+    background:#222;
+    color:white;
+}
+
+.dark .header{
+    background:#222;
+    color:white;
+}
+
+.dark .sidebar{
+    background:black;
+}
+
+.dark .card h3{
+    color:#fff;
 }
 
 </style>
@@ -130,6 +166,7 @@ body{
 <a href="dashboard.html">🏠 Dashboard</a>
 <a href="register.html">📝 Register</a>
 <a href="courses.html">📚 Courses</a>
+<a href="results.html">📊 Results</a>
 <a href="index.html">🚪 Logout</a>
 
 </div>
@@ -142,13 +179,37 @@ body{
 
 <div class="profile">
 
-<div class="avatar" id="avatar">
-A
+<!-- Profile Picture Upload -->
+<div class="avatar-container">
+
+<img id="profilePic"
+src="https://via.placeholder.com/60"
+style="
+width:60px;
+height:60px;
+border-radius:50%;
+object-fit:cover;
+">
+
+<input type="file"
+id="upload"
+accept="image/*"
+onchange="loadImage(event)"
+style="margin-top:10px; width:90px;">
+
 </div>
 
 <div>
 <h2>Welcome 👋 <span id="name"></span></h2>
 <p>Matric Number: <span id="matric"></span></p>
+
+<br>
+
+<!-- Dark Mode Button -->
+<button onclick="darkMode()">
+🌙 Dark Mode
+</button>
+
 </div>
 
 </div>
@@ -200,12 +261,6 @@ document.getElementById("matric").innerText = matric;
 document.getElementById("dept").innerText = dept;
 document.getElementById("level").innerText = level;
 
-/* Avatar */
-if(name){
-    document.getElementById("avatar").innerText =
-    name.charAt(0).toUpperCase();
-}
-
 /* Status */
 if(localStorage.getItem("registered") === "yes"){
     document.getElementById("status").innerText =
@@ -224,6 +279,24 @@ if(courses && courses.length > 0){
 }else{
     document.getElementById("courses").innerText =
     "No courses selected";
+}
+
+/* Profile Image Upload */
+function loadImage(event){
+
+    let image =
+    document.getElementById("profilePic");
+
+    image.src =
+    URL.createObjectURL(event.target.files[0]);
+
+}
+
+/* Dark Mode */
+function darkMode(){
+
+    document.body.classList.toggle("dark");
+
 }
 
 </script>
