@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Student Registration</title>
+<title>Register</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -23,26 +23,18 @@ body{
     border-radius:12px;
 }
 
-h2{
-    text-align:center;
-    color:#1d2671;
-}
-
 input, select{
     width:100%;
     padding:12px;
     margin:8px 0;
-    border:1px solid #ddd;
-    border-radius:8px;
 }
 
 button{
     width:100%;
     padding:12px;
-    border:none;
     background:#1d2671;
     color:white;
-    border-radius:8px;
+    border:none;
 }
 </style>
 </head>
@@ -51,14 +43,14 @@ button{
 
 <div class="box">
 
-<h2>Student Registration</h2>
+<h2>Register</h2>
 
-<input id="name" type="text" placeholder="Full Name">
-<input id="matric" type="text" placeholder="Matric Number">
+<input id="name" placeholder="Full Name">
+<input id="matric" placeholder="Matric Number">
 <input id="password" type="password" placeholder="Password">
 
 <select id="dept">
-<option value="">Select Department</option>
+<option value="">Department</option>
 <option>Computer Science</option>
 <option>Engineering</option>
 <option>Business Administration</option>
@@ -66,7 +58,7 @@ button{
 </select>
 
 <select id="level">
-<option value="">Select Level</option>
+<option value="">Level</option>
 <option>100</option>
 <option>200</option>
 <option>300</option>
@@ -81,22 +73,20 @@ button{
 
 function register(){
 
-    let name = document.getElementById("name").value;
-    let matric = document.getElementById("matric").value;
-    let password = document.getElementById("password").value;
-    let dept = document.getElementById("dept").value;
-    let level = document.getElementById("level").value;
+    let user = {
+        name: document.getElementById("name").value,
+        matric: document.getElementById("matric").value,
+        password: document.getElementById("password").value,
+        dept: document.getElementById("dept").value,
+        level: document.getElementById("level").value
+    };
 
-    if(name==="" || matric==="" || password==="" || dept==="" || level===""){
-        alert("Please fill all fields");
+    if(!user.name || !user.matric || !user.password || !user.dept || !user.level){
+        alert("Fill all fields");
         return;
     }
 
-    localStorage.setItem("name", name);
-    localStorage.setItem("matric", matric);
-    localStorage.setItem("password", password);
-    localStorage.setItem("dept", dept);
-    localStorage.setItem("level", level);
+    localStorage.setItem("user", JSON.stringify(user));
 
     alert("Registration Successful!");
 
