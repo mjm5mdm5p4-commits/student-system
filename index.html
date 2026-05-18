@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Herbal Wellness Store</title>
+<title>Abikeh Herbal Store</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -14,29 +14,43 @@ body{
 header{
     background:#1b5e20;
     color:white;
-    padding:20px;
+    padding:25px;
     text-align:center;
 }
 
 .container{
     padding:20px;
+    max-width:900px;
+    margin:auto;
 }
 
 .card{
     background:white;
     padding:15px;
     margin:10px 0;
-    border-radius:10px;
-    box-shadow:0 3px 10px rgba(0,0,0,0.1);
+    border-radius:12px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.product{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
 button{
     background:#1b5e20;
     color:white;
     border:none;
-    padding:10px;
+    padding:10px 15px;
     border-radius:8px;
     cursor:pointer;
+}
+
+nav a{
+    margin-right:10px;
+    text-decoration:none;
+    color:white;
 }
 </style>
 </head>
@@ -44,42 +58,53 @@ button{
 <body>
 
 <header>
-<h1>Herbal Wellness Store 🌿</h1>
-<p>Natural wellness products for daily care</p>
+<h1>ABIKEH HERBAL WELLNESS STORE 🌿</h1>
+<p>Natural wellness products for balance & daily care</p>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="cart.html">Cart</a>
+</nav>
+
 </header>
 
 <div class="container">
 
-<div class="card">
-<h3>Herbal Tea Blend</h3>
-<p>Natural herbal mix for daily wellness support</p>
-<button onclick="add('Herbal Tea Blend')">Add to Cart</button>
+<div class="card product">
+<div>
+<h3>Herbal Tea Blend 🍵</h3>
+<p>Natural wellness herbal mix</p>
+<p><b>₦3,500</b></p>
+</div>
+<button onclick="add('Herbal Tea Blend', 3500)">Add</button>
 </div>
 
-<div class="card">
+<div class="card product">
+<div>
 <h3>Detox Leaf Mix 🍃</h3>
-<p>Carefully selected natural leaves</p>
-<button onclick="add('Detox Leaf Mix')">Add to Cart</button>
+<p>Natural selected herbal leaves</p>
+<p><b>₦4,000</b></p>
+</div>
+<button onclick="add('Detox Leaf Mix', 4000)">Add</button>
 </div>
 
-<div class="card">
-<h3>Herbal Cleanse Flusher</h3>
-<p>Natural cleansing herbal formula</p>
-<button onclick="add('Herbal Cleanse Flusher')">Add to Cart</button>
+<div class="card product">
+<div>
+<h3>Herbal Cleanse Formula</h3>
+<p>Natural body wellness support</p>
+<p><b>₦5,000</b></p>
 </div>
-
-<br>
-
-<a href="cart.html">Go to Cart 🛒</a>
+<button onclick="add('Herbal Cleanse Formula', 5000)">Add</button>
+</div>
 
 </div>
 
 <script>
-function add(item){
+function add(name, price){
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.push(item);
+    cart.push({name, price});
     localStorage.setItem("cart", JSON.stringify(cart));
-    alert(item + " added to cart");
+    alert(name + " added to cart");
 }
 </script>
 
