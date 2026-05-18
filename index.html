@@ -1,29 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <header>
-<h2>Bikeh Herbal Therapy & Wellness Store 🌿</h2>
-<p>Your natural path to balance, vitality, and everyday wellness</p>
-</header>
-
-<div class="container">
-
-<div class="card">
-<h3>About Us</h3>
-<p>
-We specialize in carefully prepared herbal wellness products inspired by traditional natural care practices...
-</p>
-</div>
-<title>Abikeh Herbal Store</title>
+<title>Bikeh Herbal Therapy & Wellness Store</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 body{
     margin:0;
     font-family:Arial;
     background:#f4f6fb;
 }
 
+/* HEADER */
 header{
     background:#1b5e20;
     color:white;
@@ -31,12 +20,21 @@ header{
     text-align:center;
 }
 
+/* NAV */
+nav a{
+    margin:10px;
+    text-decoration:none;
+    color:white;
+}
+
+/* CONTAINER */
 .container{
     padding:20px;
     max-width:900px;
     margin:auto;
 }
 
+/* CARD */
 .card{
     background:white;
     padding:15px;
@@ -45,12 +43,14 @@ header{
     box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
+/* PRODUCT */
 .product{
     display:flex;
     justify-content:space-between;
     align-items:center;
 }
 
+/* BUTTON */
 button{
     background:#1b5e20;
     color:white;
@@ -60,65 +60,92 @@ button{
     cursor:pointer;
 }
 
-nav a{
-    margin-right:10px;
-    text-decoration:none;
-    color:white;
+button:hover{
+    background:#145a18;
 }
+
 </style>
 </head>
 
 <body>
 
 <header>
-<h1>ABIKEH HERBAL WELLNESS STORE 🌿</h1>
-<p>Natural wellness products for balance & daily care</p>
+
+<h1>BIKEH HERBAL THERAPY & WELLNESS STORE 🌿</h1>
+<p>Your natural path to balance, vitality, and everyday wellness</p>
 
 <nav>
 <a href="index.html">Home</a>
-<a href="cart.html">Cart</a>
+<a href="cart.html">Cart 🛒</a>
+<a href="checkout.html">Checkout</a>
 </nav>
 
 </header>
 
 <div class="container">
 
-<div class="card product">
-<div>
-<h3>Herbal Tea Blend 🍵</h3>
-<p>Natural wellness herbal mix</p>
-<p><b>₦3,500</b></p>
+<!-- ABOUT -->
+<div class="card">
+<h2>About Us 🌿</h2>
+<p>
+We provide carefully prepared herbal wellness products inspired by traditional natural care practices.
+Our goal is to support healthy living, body balance, and overall wellness using natural herbal blends.
+</p>
 </div>
-<button onclick="add('Herbal Tea Blend', 3500)">Add</button>
-</div>
+
+<!-- PRODUCTS (SAFE VERSION OF YOUR REQUEST) -->
 
 <div class="card product">
 <div>
-<h3>Detox Leaf Mix 🍃</h3>
-<p>Natural selected herbal leaves</p>
-<p><b>₦4,000</b></p>
-</div>
-<button onclick="add('Detox Leaf Mix', 4000)">Add</button>
-</div>
-
-<div class="card product">
-<div>
-<h3>Herbal Cleanse Formula</h3>
-<p>Natural body wellness support</p>
+<h3>Men’s Vitality Herbal Blend</h3>
+<p>Supports energy, stamina & body strength</p>
 <p><b>₦5,000</b></p>
 </div>
-<button onclick="add('Herbal Cleanse Formula', 5000)">Add</button>
+<button onclick="add('Men Vitality Herbal Blend', 5000)">Add</button>
+</div>
+
+<div class="card product">
+<div>
+<h3>Herbal Detox Cleanse</h3>
+<p>Supports internal cleansing & body balance</p>
+<p><b>₦4,000</b></p>
+</div>
+<button onclick="add('Herbal Detox Cleanse', 4000)">Add</button>
+</div>
+
+<div class="card product">
+<div>
+<h3>Circulation Support Herbal Mix</h3>
+<p>Supports healthy blood flow & wellness</p>
+<p><b>₦4,500</b></p>
+</div>
+<button onclick="add('Circulation Support Mix', 4500)">Add</button>
+</div>
+
+<div class="card product">
+<div>
+<h3>Immune Wellness Herbal Blend</h3>
+<p>Supports body resistance & wellness balance</p>
+<p><b>₦3,800</b></p>
+</div>
+<button onclick="add('Immune Wellness Blend', 3800)">Add</button>
 </div>
 
 </div>
 
 <script>
+
 function add(name, price){
+
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
     cart.push({name, price});
+
     localStorage.setItem("cart", JSON.stringify(cart));
+
     alert(name + " added to cart");
 }
+
 </script>
 
 </body>
