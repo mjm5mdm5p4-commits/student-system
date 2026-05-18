@@ -15,7 +15,7 @@ body{
 }
 
 .container{
-    max-width:700px;
+    max-width:800px;
     margin:auto;
 }
 
@@ -48,13 +48,13 @@ th{
     color:white;
 }
 
-.gpa{
-    font-size:25px;
-    color:#c33764;
-    font-weight:bold;
+select{
+    padding:8px;
+    width:80px;
 }
 
 button{
+    margin-top:20px;
     padding:12px;
     width:100%;
     border:none;
@@ -62,10 +62,18 @@ button{
     color:white;
     border-radius:8px;
     cursor:pointer;
+    font-size:16px;
 }
 
 button:hover{
     background:#c33764;
+}
+
+.gpa-box{
+    text-align:center;
+    font-size:28px;
+    color:#c33764;
+    font-weight:bold;
 }
 
 </style>
@@ -76,7 +84,8 @@ button:hover{
 <div class="container">
 
 <div class="card">
-<h2>📚 Semester Results</h2>
+
+<h2>📚 Result Checker</h2>
 
 <table>
 
@@ -87,46 +96,132 @@ button:hover{
 
 <tr>
 <td>CSC101</td>
-<td>A</td>
+<td>
+<select class="grade">
+<option>A</option>
+<option>B</option>
+<option>C</option>
+<option>D</option>
+<option>F</option>
+</select>
+</td>
 </tr>
 
 <tr>
 <td>MTH101</td>
-<td>B</td>
+<td>
+<select class="grade">
+<option>A</option>
+<option>B</option>
+<option>C</option>
+<option>D</option>
+<option>F</option>
+</select>
+</td>
 </tr>
 
 <tr>
 <td>GST101</td>
-<td>A</td>
+<td>
+<select class="grade">
+<option>A</option>
+<option>B</option>
+<option>C</option>
+<option>D</option>
+<option>F</option>
+</select>
+</td>
 </tr>
 
 <tr>
 <td>PHY101</td>
-<td>C</td>
+<td>
+<select class="grade">
+<option>A</option>
+<option>B</option>
+<option>C</option>
+<option>D</option>
+<option>F</option>
+</select>
+</td>
 </tr>
 
 </table>
 
-</div>
-
-<div class="card">
-<h2>🎯 GPA</h2>
-
-<p class="gpa">4.25</p>
-</div>
-
-<div class="card">
-<button onclick="back()">
-Back To Dashboard
+<button onclick="calculateGPA()">
+Calculate GPA
 </button>
+
+</div>
+
+<div class="card">
+
+<h2>🎯 GPA Result</h2>
+
+<div class="gpa-box" id="gpa">
+0.00
+</div>
+
+</div>
+
+<div class="card">
+
+<button onclick="backDashboard()">
+⬅ Back To Dashboard
+</button>
+
 </div>
 
 </div>
 
 <script>
 
-function back(){
-    window.location.href="dashboard.html";
+function calculateGPA(){
+
+    let grades =
+    document.querySelectorAll(".grade");
+
+    let total = 0;
+
+    grades.forEach(function(item){
+
+        let value = item.value;
+
+        if(value === "A"){
+            total += 5;
+        }
+
+        else if(value === "B"){
+            total += 4;
+        }
+
+        else if(value === "C"){
+            total += 3;
+        }
+
+        else if(value === "D"){
+            total += 2;
+        }
+
+        else{
+            total += 0;
+        }
+
+    });
+
+    let gpa =
+    (total / grades.length).toFixed(2);
+
+    document.getElementById("gpa").innerText =
+    gpa;
+
+}
+
+function backDashboard(){
+
+    window.location.href =
+    "dashboard.html";
+
 }
 
 </script>
