@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cart</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{font-family:Arial;background:#f4f6fb;padding:20px;}
+
+.card{
+    background:white;
+    padding:15px;
+    margin:10px 0;
+    border-radius:10px;
+}
+
+button{
+    background:red;
+    color:white;
+    border:none;
+    padding:10px;
+    border-radius:8px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Your Cart 🛒</h2>
+
+<div id="cart"></div>
+
+<br>
+
+<a href="checkout.html">Proceed to Checkout</a>
+
+<script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let box = document.getElementById("cart");
+
+if(cart.length === 0){
+    box.innerHTML = "Cart is empty";
+}else{
+    cart.forEach((item, index)=>{
+        let div = document.createElement("div");
+        div.className = "card";
+        div.innerHTML = item + " <button onclick='removeItem(" + index + ")'>Remove</button>";
+        box.appendChild(div);
+    });
+}
+
+function removeItem(i){
+    cart.splice(i,1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    location.reload();
+}
+
+</script>
+
+</body>
+</html>
