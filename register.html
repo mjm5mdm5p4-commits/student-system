@@ -100,7 +100,14 @@ function register(){
         alert("Please fill all fields");
         return;
     }
+console.log("Saving data...");
 
+localStorage.setItem("name", name);
+localStorage.setItem("matric", matric);
+localStorage.setItem("password", password);
+
+console.log("Saved matric:", localStorage.getItem("matric"));
+console.log("Saved password:", localStorage.getItem("password"));
     // SAVE DATA (VERY IMPORTANT)
     localStorage.setItem("name", name);
     localStorage.setItem("matric", matric);
