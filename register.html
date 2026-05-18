@@ -34,7 +34,6 @@ input, select{
     margin:8px 0;
     border:1px solid #ddd;
     border-radius:8px;
-    outline:none;
 }
 
 button{
@@ -44,14 +43,7 @@ button{
     background:#1d2671;
     color:white;
     border-radius:8px;
-    cursor:pointer;
-    font-size:16px;
 }
-
-button:hover{
-    background:#c33764;
-}
-
 </style>
 </head>
 
@@ -61,9 +53,9 @@ button:hover{
 
 <h2>Student Registration</h2>
 
-<input type="text" id="name" placeholder="Full Name">
-<input type="text" id="matric" placeholder="Matric Number">
-<input type="password" id="password" placeholder="Password">
+<input id="name" type="text" placeholder="Full Name">
+<input id="matric" type="text" placeholder="Matric Number">
+<input id="password" type="password" placeholder="Password">
 
 <select id="dept">
 <option value="">Select Department</option>
@@ -95,31 +87,19 @@ function register(){
     let dept = document.getElementById("dept").value;
     let level = document.getElementById("level").value;
 
-    // validation
-    if(name === "" || matric === "" || password === "" || dept === "" || level === ""){
+    if(name==="" || matric==="" || password==="" || dept==="" || level===""){
         alert("Please fill all fields");
         return;
     }
-console.log("Saving data...");
 
-localStorage.setItem("name", name);
-localStorage.setItem("matric", matric);
-localStorage.setItem("password", password);
-
-console.log("Saved matric:", localStorage.getItem("matric"));
-console.log("Saved password:", localStorage.getItem("password"));
-    // SAVE DATA (VERY IMPORTANT)
     localStorage.setItem("name", name);
     localStorage.setItem("matric", matric);
     localStorage.setItem("password", password);
     localStorage.setItem("dept", dept);
     localStorage.setItem("level", level);
 
-    localStorage.setItem("registered", "yes");
-
     alert("Registration Successful!");
 
-    // go to login page
     window.location.href = "index.html";
 }
 
