@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Results & GPA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#eef2f7;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:20px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.1);
+}
+
+h2{
+    color:#1d2671;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table th,
+table td{
+    border:1px solid #ddd;
+    padding:12px;
+    text-align:center;
+}
+
+th{
+    background:#1d2671;
+    color:white;
+}
+
+.gpa{
+    font-size:25px;
+    color:#c33764;
+    font-weight:bold;
+}
+
+button{
+    padding:12px;
+    width:100%;
+    border:none;
+    background:#1d2671;
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#c33764;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+<h2>📚 Semester Results</h2>
+
+<table>
+
+<tr>
+<th>Course</th>
+<th>Grade</th>
+</tr>
+
+<tr>
+<td>CSC101</td>
+<td>A</td>
+</tr>
+
+<tr>
+<td>MTH101</td>
+<td>B</td>
+</tr>
+
+<tr>
+<td>GST101</td>
+<td>A</td>
+</tr>
+
+<tr>
+<td>PHY101</td>
+<td>C</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="card">
+<h2>🎯 GPA</h2>
+
+<p class="gpa">4.25</p>
+</div>
+
+<div class="card">
+<button onclick="back()">
+Back To Dashboard
+</button>
+</div>
+
+</div>
+
+<script>
+
+function back(){
+    window.location.href="dashboard.html";
+}
+
+</script>
+
+</body>
+</html>
