@@ -2,24 +2,35 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Results</title>
+<title>Courses</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 body{
-    font-family:Arial;
-    background:#eef2f7;
     margin:0;
-    padding:20px;
+    font-family:Segoe UI, Arial, sans-serif;
+    background:#f4f6fb;
 }
 
+/* NAVBAR */
+nav{
+    background:#1d2671;
+    padding:15px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-right:15px;
+    font-weight:500;
+}
+
+/* CONTAINER */
 .container{
-    max-width:400px;
-    margin:auto;
-    background:white;
+    max-width:500px;
+    margin:30px auto;
     padding:20px;
-    border-radius:10px;
-    box-shadow:0 3px 10px rgba(0,0,0,0.1);
 }
 
 h2{
@@ -27,40 +38,92 @@ h2{
     color:#1d2671;
 }
 
-.result{
-    padding:12px;
+/* COURSE CARD */
+.course{
+    background:white;
+    padding:15px;
     margin:10px 0;
-    border-bottom:1px solid #ddd;
+    border-radius:10px;
+    cursor:pointer;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    transition:0.3s;
 }
 
-nav a{
-    margin:10px;
-    text-decoration:none;
-    color:#1d2671;
-    font-weight:bold;
+.course:hover{
+    transform:scale(1.02);
 }
+
+.selected{
+    background:#1d2671;
+    color:white;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:12px;
+    background:#1d2671;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    margin-top:15px;
+    font-size:15px;
+}
+
+button:hover{
+    background:#c33764;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="container">
-
-<h2>Student Results</h2>
-
 <nav>
 <a href="dashboard.html">Dashboard</a>
 <a href="course.html">Courses</a>
+<a href="results.html">Results</a>
 <a href="index.html">Home</a>
 </nav>
 
-<div class="result">CSC101 - A</div>
-<div class="result">MTH101 - B</div>
-<div class="result">GST101 - A</div>
-<div class="result">PHY101 - C</div>
-<div class="result">CHM101 - B</div>
+<div class="container">
+
+<h2>Select Your Courses</h2>
+
+<div class="course" onclick="toggle(this)">CSC101 - Introduction to Programming</div>
+<div class="course" onclick="toggle(this)">MTH101 - Mathematics</div>
+<div class="course" onclick="toggle(this)">GST101 - Communication Skills</div>
+<div class="course" onclick="toggle(this)">PHY101 - Physics</div>
+<div class="course" onclick="toggle(this)">CHM101 - Chemistry</div>
+
+<button onclick="saveCourses()">Save Courses</button>
 
 </div>
+
+<script>
+
+let selected = [];
+
+function toggle(el){
+    let course = el.innerText;
+
+    el.classList.toggle("selected");
+
+    if(selected.includes(course)){
+        selected = selected.filter(c => c !== course);
+    }else{
+        selected.push(course);
+    }
+}
+
+function saveCourses(){
+    localStorage.setItem("courses", JSON.stringify(selected));
+    alert("Courses saved successfully!");
+    window.location.href = "dashboard.html";
+}
+
+</script>
 
 </body>
 </html>
