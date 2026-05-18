@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Register</title>
+</head>
+
+<body style="font-family:Arial;text-align:center;margin-top:100px;">
+
+<h2>Register Student</h2>
+
+<input id="name" placeholder="Full Name"><br><br>
+<input id="email" placeholder="Email"><br><br>
+
+<button onclick="done()">Submit</button>
+
+<script>
+function done(){
+    localStorage.setItem("registered","yes");
+    alert("Registration Successful!");
+    window.location.href = "dashboard.html";
+}
+</script>
+
+</body>
+</html>
