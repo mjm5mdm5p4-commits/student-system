@@ -1,211 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>College Admission System</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>College Admission Registration Form</title>
 
+<!-- Font Awesome Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
-}
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family: Arial, sans-serif;
+    }
 
-body{
-    background:linear-gradient(135deg,#0d6efd,#ffffff);
-    min-height:100vh;
-    padding:20px;
-}
+    body{
+        height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background:linear-gradient(135deg,#0d6efd,#ffffff);
+        overflow:hidden;
+    }
 
-.container{
-    max-width:1000px;
-    margin:auto;
-}
+    /* Floating circles background */
+    .circle{
+        position:absolute;
+        border-radius:50%;
+        background:rgba(255,255,255,0.2);
+        animation:float 8s infinite ease-in-out;
+    }
 
-.header{
-    background:white;
-    padding:20px;
-    border-radius:15px;
-    text-align:center;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
-    margin-bottom:20px;
-}
+    .circle:nth-child(1){
+        width:120px;
+        height:120px;
+        top:10%;
+        left:10%;
+    }
 
-.header h1{
-    color:#0d6efd;
-}
+    .circle:nth-child(2){
+        width:180px;
+        height:180px;
+        bottom:10%;
+        right:10%;
+        animation-duration:10s;
+    }
 
-.dashboard{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:15px;
-    margin-bottom:20px;
-}
+    .circle:nth-child(3){
+        width:80px;
+        height:80px;
+        top:70%;
+        left:20%;
+        animation-duration:6s;
+    }
 
-.card-box{
-    background:white;
-    padding:20px;
-    border-radius:15px;
-    text-align:center;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
-}
+    @keyframes float{
+        0%{
+            transform:translateY(0px);
+        }
+        50%{
+            transform:translateY(-20px);
+        }
+        100%{
+            transform:translateY(0px);
+        }
+    }
 
-.card-box h2{
-    color:#0d6efd;
-    margin-bottom:10px;
-}
+    .form-container{
+        width:400px;
+        background:#fff;
+        padding:35px;
+        border-radius:20px;
+        box-shadow:0 10px 30px rgba(0,0,0,0.2);
+        animation:flyIn 1.2s ease;
+        z-index:1;
+    }
 
-.form-container{
-    background:white;
-    padding:25px;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
-    margin-bottom:20px;
-}
+    @keyframes flyIn{
+        from{
+            opacity:0;
+            transform:translateY(-100px) scale(0.8);
+        }
+        to{
+            opacity:1;
+            transform:translateY(0) scale(1);
+        }
+    }
 
-.input-box{
-    margin-bottom:15px;
-}
+    .form-container h2{
+        text-align:center;
+        color:#0d6efd;
+        margin-bottom:25px;
+    }
 
-.input-box input,
-.input-box select{
-    width:100%;
-    padding:12px;
-    border:2px solid #dbe7ff;
-    border-radius:10px;
-    outline:none;
-}
+    .input-box{
+        position:relative;
+        margin-bottom:20px;
+    }
 
-.btn{
-    width:100%;
-    padding:12px;
-    background:#0d6efd;
-    color:white;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    font-size:16px;
-}
+    .input-box i{
+        position:absolute;
+        top:50%;
+        left:15px;
+        transform:translateY(-50%);
+        color:#0d6efd;
+    }
 
-.btn:hover{
-    background:#0056d6;
-}
+    .input-box input,
+    .input-box select{
+        width:100%;
+        padding:12px 12px 12px 45px;
+        border:2px solid #dbe7ff;
+        border-radius:10px;
+        outline:none;
+        transition:0.3s;
+        font-size:15px;
+    }
 
-#message{
-    margin-top:10px;
-    text-align:center;
-    font-weight:bold;
-}
+    .input-box input:focus,
+    .input-box select:focus{
+        border-color:#0d6efd;
+        box-shadow:0 0 10px rgba(13,110,253,0.3);
+    }
 
-.search-box{
-    margin-bottom:20px;
-}
+    .btn{
+        width:100%;
+        padding:12px;
+        border:none;
+        background:#0d6efd;
+        color:white;
+        font-size:16px;
+        border-radius:10px;
+        cursor:pointer;
+        transition:0.3s;
+    }
 
-.search-box input{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-}
+    .btn:hover{
+        background:#0056d6;
+        transform:scale(1.03);
+    }
 
-#studentList{
-    display:grid;
-    gap:15px;
-}
-
-.student-card{
-    background:white;
-    padding:15px;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
-}
-
-.student-card button{
-    margin-top:10px;
-    padding:8px 12px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    color:white;
-}
-
-.delete-btn{
-    background:red;
-}
-
-.dark-mode{
-    background:#121212;
-}
-
-.dark-mode .header,
-.dark-mode .form-container,
-.dark-mode .card-box,
-.dark-mode .student-card{
-    background:#1e1e1e;
-    color:white;
-}
-
-.toggle-btn{
-    margin-bottom:20px;
-    background:black;
-}
+    .footer-text{
+        text-align:center;
+        margin-top:15px;
+        font-size:14px;
+        color:#555;
+    }
 </style>
 </head>
-
 <body>
 
-<div class="container">
+<!-- Animated Background -->
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
 
-    <div class="header">
-        <h1><i class="fa-solid fa-graduation-cap"></i> College Admission System</h1>
-        <p>Student Registration Dashboard</p>
-    </div>
+<!-- Registration Form -->
+<div class="form-container">
+    <h2><i class="fa-solid fa-graduation-cap"></i> College Admission</h2>
 
-    <button class="btn toggle-btn" onclick="toggleDarkMode()">
-        🌙 Toggle Dark Mode
-    </button>
-
-    <div class="dashboard">
-        <div class="card-box">
-            <h2>Total Students</h2>
-            <p id="totalStudents">0</p>
-        </div>
-
-        <div class="card-box">
-            <h2>Departments</h2>
-            <p>4</p>
-        </div>
-
-        <div class="card-box">
-            <h2>Status</h2>
-            <p>Online</p>
-        </div>
-    </div>
-
-    <div class="form-container">
-
+    <form>
         <div class="input-box">
-            <input type="text" id="name" placeholder="Full Name">
+            <i class="fa-solid fa-user"></i>
+            <input type="text" placeholder="Full Name" required>
         </div>
 
         <div class="input-box">
-            <input type="email" id="email" placeholder="Email">
+            <i class="fa-solid fa-envelope"></i>
+            <input type="email" placeholder="Email Address" required>
         </div>
 
         <div class="input-box">
-            <input type="tel" id="phone" placeholder="Phone Number">
+            <i class="fa-solid fa-phone"></i>
+            <input type="tel" placeholder="Phone Number" required>
         </div>
 
         <div class="input-box">
-            <input type="date" id="date">
+            <i class="fa-solid fa-calendar"></i>
+            <input type="date" required>
         </div>
 
         <div class="input-box">
-            <select id="department">
+            <i class="fa-solid fa-book"></i>
+            <select required>
                 <option value="">Select Department</option>
                 <option>Computer Science</option>
                 <option>Engineering</option>
@@ -214,120 +193,22 @@ body{
             </select>
         </div>
 
-        <button class="btn" onclick="registerStudent()">
-            Register Student
-        </button>
+        <div class="input-box">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" placeholder="Create Password" required>
+        </div>
 
-        <p id="message"></p>
-    </div>
+        <a href="success.html">
+    <button type="button" class="btn">
+        Register
+    </button>
+</a>
 
-    <div class="search-box">
-        <input type="text" id="search" placeholder="Search Student..." onkeyup="searchStudent()">
-    </div>
-
-    <div id="studentList"></div>
-
+        <div class="footer-text">
+            Start your journey with us 🎓
+        </div>
+    </form>
 </div>
 
-<script>
-let students = JSON.parse(localStorage.getItem("students")) || [];
-
-function registerStudent(){
-
-    let name = document.getElementById("name").value;
-    let email = document.getElementById("email").value;
-    let phone = document.getElementById("phone").value;
-    let date = document.getElementById("date").value;
-    let department = document.getElementById("department").value;
-
-    if(name === "" || email === "" || phone === "" || date === "" || department === ""){
-        document.getElementById("message").style.color = "red";
-        document.getElementById("message").innerHTML = "⚠ Please fill all fields!";
-        return;
-    }
-
-    let student = {
-        name,
-        email,
-        phone,
-        date,
-        department
-    };
-
-    students.push(student);
-
-    localStorage.setItem("students", JSON.stringify(students));
-
-    document.getElementById("message").style.color = "green";
-    document.getElementById("message").innerHTML = "🎉 Student Registered Successfully!";
-
-    displayStudents();
-
-    document.getElementById("name").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("phone").value = "";
-    document.getElementById("date").value = "";
-    document.getElementById("department").value = "";
-}
-
-function displayStudents(){
-
-    let studentList = document.getElementById("studentList");
-
-    studentList.innerHTML = "";
-
-    students.forEach((student,index)=>{
-
-        studentList.innerHTML += `
-        <div class="student-card">
-            <h3>👤 ${student.name}</h3>
-            <p>📧 ${student.email}</p>
-            <p>📞 ${student.phone}</p>
-            <p>📅 ${student.date}</p>
-            <p>🏫 ${student.department}</p>
-
-            <button class="delete-btn" onclick="deleteStudent(${index})">
-                Delete
-            </button>
-        </div>
-        `;
-    });
-
-    document.getElementById("totalStudents").innerHTML = students.length;
-}
-
-function deleteStudent(index){
-
-    students.splice(index,1);
-
-    localStorage.setItem("students", JSON.stringify(students));
-
-    displayStudents();
-}
-
-function searchStudent(){
-
-    let input = document.getElementById("search").value.toLowerCase();
-
-    let cards = document.querySelectorAll(".student-card");
-
-    cards.forEach(card => {
-
-        if(card.innerText.toLowerCase().includes(input)){
-            card.style.display = "block";
-        }else{
-            card.style.display = "none";
-        }
-
-    });
-}
-
-function toggleDarkMode(){
-    document.body.classList.toggle("dark-mode");
-}
-
-displayStudents();
-</script>
-
 </body>
-</html>
+</html>student-system
