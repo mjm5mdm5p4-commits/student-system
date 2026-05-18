@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
 body{
     margin:0;
     font-family:Arial;
@@ -22,13 +21,11 @@ body{
     width:320px;
     padding:30px;
     border-radius:12px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.3);
 }
 
 h2{
     text-align:center;
     color:#1d2671;
-    margin-bottom:20px;
 }
 
 input{
@@ -37,7 +34,6 @@ input{
     margin:10px 0;
     border:1px solid #ddd;
     border-radius:8px;
-    outline:none;
 }
 
 button{
@@ -47,21 +43,13 @@ button{
     background:#1d2671;
     color:white;
     border-radius:8px;
-    cursor:pointer;
-    font-size:16px;
-}
-
-button:hover{
-    background:#c33764;
 }
 
 .error{
     color:red;
     text-align:center;
     font-size:14px;
-    margin-top:10px;
 }
-
 </style>
 </head>
 
@@ -90,14 +78,12 @@ function login(){
     let savedMatric = localStorage.getItem("matric");
     let savedPassword = localStorage.getItem("password");
 
-    // check if user exists
     if(!savedMatric || !savedPassword){
         document.getElementById("error").innerText =
-        "No registered user found. Please register first.";
+        "No account found. Please register first.";
         return;
     }
 
-    // login check
     if(matric === savedMatric && password === savedPassword){
 
         localStorage.setItem("loggedIn","true");
@@ -105,10 +91,8 @@ function login(){
         window.location.href = "dashboard.html";
 
     }else{
-
         document.getElementById("error").innerText =
-        "Invalid matric number or password";
-
+        "Wrong login details";
     }
 }
 
