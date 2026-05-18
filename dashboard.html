@@ -92,7 +92,10 @@ body{
 <h2>Welcome 👋 <span id="name"></span></h2>
 <p>Matric: <b id="matric"></b></p>
 </div>
-
+<div class="card">
+<h3>Registered Courses</h3>
+<p id="courses">No courses selected</p>
+</div>
 <div class="grid">
 
 <div class="card">
@@ -130,6 +133,16 @@ if(localStorage.getItem("registered") === "yes"){
 }else{
     document.getElementById("status").innerText = "Not Registered";
 }
+<script>
+let courses = JSON.parse(localStorage.getItem("courses"));
+
+if(courses && courses.length > 0){
+    document.getElementById("courses").innerText = courses.join(", ");
+}else{
+    document.getElementById("courses").innerText = "No courses selected";
+}
+</script>
+    
 </script>
 
 </body>
