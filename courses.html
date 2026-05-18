@@ -6,21 +6,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 body{
-    font-family:Arial;
+    font-family:Arial, sans-serif;
     background:#eef2f7;
     margin:0;
-    display:flex;
-    justify-content:center;
+    padding:20px;
 }
 
 .container{
-    width:360px;
-    margin-top:50px;
+    max-width:400px;
+    margin:auto;
     background:white;
     padding:20px;
-    border-radius:10px;
-    box-shadow:0 3px 10px rgba(0,0,0,0.1);
+    border-radius:12px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
 h2{
@@ -29,13 +29,14 @@ h2{
 }
 
 .course{
-    padding:12px;
+    padding:14px;
     margin:10px 0;
     border:1px solid #ddd;
     border-radius:8px;
     cursor:pointer;
     text-align:center;
     transition:0.3s;
+    font-weight:bold;
 }
 
 .course:hover{
@@ -50,24 +51,44 @@ h2{
 
 button{
     width:100%;
-    padding:12px;
+    padding:14px;
     margin-top:15px;
     border:none;
     background:#1d2671;
     color:white;
     border-radius:8px;
     cursor:pointer;
+    font-size:16px;
 }
 
 button:hover{
     background:#c33764;
 }
+
+nav{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+nav a{
+    text-decoration:none;
+    margin:0 10px;
+    color:#1d2671;
+    font-weight:bold;
+}
+
 </style>
 </head>
 
 <body>
 
+<nav>
+<a href="index.html">Home</a>
+<a href="dashboard.html">Dashboard</a>
+</nav>
+
 <div class="container">
+
 <h2>Select Courses</h2>
 
 <div class="course" onclick="toggle(this)">CSC101</div>
@@ -77,6 +98,7 @@ button:hover{
 <div class="course" onclick="toggle(this)">CHM101</div>
 
 <button onclick="submitCourses()">Save Courses</button>
+
 </div>
 
 <script>
@@ -84,6 +106,7 @@ button:hover{
 let selected = [];
 
 function toggle(el){
+
     let course = el.innerText;
 
     el.classList.toggle("selected");
@@ -96,7 +119,6 @@ function toggle(el){
 }
 
 function submitCourses(){
-    localStorage.setItem("courses", JSON.stringify(selected));
 
     alert("Courses Saved Successfully!");
 
