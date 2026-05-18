@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Student Portal</title>
+<title>Student Portal Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -33,6 +33,7 @@ body{
     padding:10px;
     margin:10px 0;
     border-radius:5px;
+    transition:0.3s;
 }
 
 .sidebar a:hover{
@@ -43,6 +44,15 @@ body{
 .main{
     margin-left:240px;
     padding:20px;
+}
+
+/* Header */
+.header{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.1);
 }
 
 /* Cards */
@@ -60,23 +70,15 @@ body{
 }
 
 .card h3{
-    margin:0 0 10px 0;
+    margin-top:0;
     color:#1d2671;
-}
-
-/* Header */
-.header{
-    background:white;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:20px;
-    box-shadow:0 3px 10px rgba(0,0,0,0.05);
 }
 </style>
 </head>
 
 <body>
 
+<!-- Sidebar -->
 <div class="sidebar">
 <h2>Student Portal</h2>
 
@@ -86,26 +88,27 @@ body{
 <a href="index.html">Logout</a>
 </div>
 
+<!-- Main Content -->
 <div class="main">
 
+<!-- Header -->
 <div class="header">
 <h2>Welcome 👋 <span id="name"></span></h2>
-<p>Matric: <b id="matric"></b></p>
+
+<p><b>Matric Number:</b> <span id="matric"></span></p>
 </div>
-<div class="card">
-<h3>Registered Courses</h3>
-<p id="courses">No courses selected</p>
-</div>
+
+<!-- Cards -->
 <div class="grid">
 
 <div class="card">
 <h3>Department</h3>
-<p id="dept">Not set</p>
+<p id="dept">Not Set</p>
 </div>
 
 <div class="card">
 <h3>Level</h3>
-<p id="level">Not set</p>
+<p id="level">Not Set</p>
 </div>
 
 <div class="card">
@@ -114,8 +117,8 @@ body{
 </div>
 
 <div class="card">
-<h3>Courses</h3>
-<p>Click "Courses" to manage</p>
+<h3>Registered Courses</h3>
+<p id="courses">No courses selected</p>
 </div>
 
 </div>
@@ -123,26 +126,40 @@ body{
 </div>
 
 <script>
-document.getElementById("name").innerText = localStorage.getItem("name");
-document.getElementById("matric").innerText = localStorage.getItem("matric");
-document.getElementById("dept").innerText = localStorage.getItem("dept");
-document.getElementById("level").innerText = localStorage.getItem("level");
 
+/* Student info */
+document.getElementById("name").innerText =
+localStorage.getItem("name");
+
+document.getElementById("matric").innerText =
+localStorage.getItem("matric");
+
+document.getElementById("dept").innerText =
+localStorage.getItem("dept");
+
+document.getElementById("level").innerText =
+localStorage.getItem("level");
+
+/* Registration status */
 if(localStorage.getItem("registered") === "yes"){
-    document.getElementById("status").innerText = "Registered ✔";
+    document.getElementById("status").innerText =
+    "Registered ✔";
 }else{
-    document.getElementById("status").innerText = "Not Registered";
+    document.getElementById("status").innerText =
+    "Not Registered";
 }
-<script>
+
+/* Courses */
 let courses = JSON.parse(localStorage.getItem("courses"));
 
 if(courses && courses.length > 0){
-    document.getElementById("courses").innerText = courses.join(", ");
+    document.getElementById("courses").innerText =
+    courses.join(", ");
 }else{
-    document.getElementById("courses").innerText = "No courses selected";
+    document.getElementById("courses").innerText =
+    "No courses selected";
 }
-</script>
-    
+
 </script>
 
 </body>
