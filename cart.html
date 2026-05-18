@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Cart</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart - Abikeh Herbal</title>
 
 <style>
-body{font-family:Arial;background:#f4f6fb;padding:20px;}
+body{
+    font-family:Arial;
+    background:#f4f6fb;
+    padding:20px;
+}
 
 .card{
     background:white;
@@ -18,44 +21,59 @@ button{
     background:red;
     color:white;
     border:none;
-    padding:10px;
-    border-radius:8px;
+    padding:8px;
+    border-radius:6px;
+}
+
+.total{
+    font-size:20px;
+    font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
-<h2>Your Cart 🛒</h2>
+<h2>🛒 Your Cart</h2>
 
 <div id="cart"></div>
 
-<br>
+<h3 class="total" id="total"></h3>
 
 <a href="checkout.html">Proceed to Checkout</a>
 
 <script>
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
 let box = document.getElementById("cart");
+let total = 0;
 
-if(cart.length === 0){
-    box.innerHTML = "Cart is empty";
-}else{
-    cart.forEach((item, index)=>{
+function render(){
+    box.innerHTML = "";
+    total = 0;
+
+    cart.forEach((item, i)=>{
+        total += item.price;
+
         let div = document.createElement("div");
         div.className = "card";
-        div.innerHTML = item + " <button onclick='removeItem(" + index + ")'>Remove</button>";
+        div.innerHTML = `
+            ${item.name} - ₦${item.price}
+            <button onclick="removeItem(${i})">Remove</button>
+        `;
         box.appendChild(div);
     });
+
+    document.getElementById("total").innerText = "Total: ₦" + total;
 }
 
 function removeItem(i){
     cart.splice(i,1);
     localStorage.setItem("cart", JSON.stringify(cart));
-    location.reload();
+    render();
 }
+
+render();
 
 </script>
 
