@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Student Login</title>
+<title>Student Portal Login</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
+    margin:0;
     font-family:Arial;
-    background:linear-gradient(135deg,#1d2671,#c33764);
     height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    margin:0;
+    background:linear-gradient(135deg,#1d2671,#c33764);
 }
 
 .box{
     background:white;
     padding:25px;
-    width:300px;
+    width:320px;
     border-radius:10px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.2);
 }
 
 input{
@@ -34,7 +35,9 @@ button{
     background:#1d2671;
     color:white;
     border:none;
+    cursor:pointer;
 }
+
 button:hover{
     background:#c33764;
 }
@@ -47,21 +50,24 @@ button:hover{
 <h2>Student Login</h2>
 
 <input id="matric" placeholder="Matric Number">
-<input id="password" type="password" placeholder="Password">
+<input id="name" placeholder="Full Name">
 
 <button onclick="login()">Login</button>
 </div>
 
 <script>
 function login(){
-    let m = document.getElementById("matric").value;
+    let matric = document.getElementById("matric").value;
+    let name = document.getElementById("name").value;
 
-    if(m === ""){
-        alert("Enter matric number");
+    if(matric === "" || name === ""){
+        alert("Fill all fields");
         return;
     }
 
-    localStorage.setItem("matric", m);
+    localStorage.setItem("matric", matric);
+    localStorage.setItem("name", name);
+
     window.location.href = "dashboard.html";
 }
 </script>
