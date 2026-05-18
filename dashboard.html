@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+
+<style>
+body{
+    font-family:Arial;
+    margin:0;
+    background:#f4f4f4;
+}
+
+.sidebar{
+    width:200px;
+    height:100vh;
+    background:#1d2671;
+    color:white;
+    position:fixed;
+    padding:20px;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    margin:15px 0;
+}
+
+.main{
+    margin-left:220px;
+    padding:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+<h3>Menu</h3>
+<a href="register.html">Register</a>
+<a href="courses.html">Courses</a>
+<a href="index.html">Logout</a>
+</div>
+
+<div class="main">
+<h2>Welcome 👋</h2>
+
+<p>Matric: <span id="matric"></span></p>
+</div>
+
+<script>
+document.getElementById("matric").innerText =
+localStorage.getItem("matric");
+</script>
+
+</body>
+</html>
