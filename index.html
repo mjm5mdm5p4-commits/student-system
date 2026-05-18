@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>College Admission System</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#0d6efd,#ffffff);
+    min-height:100vh;
+    padding:20px;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+}
+
+.header{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+    margin-bottom:20px;
+}
+
+.header h1{
+    color:#0d6efd;
+}
+
+.dashboard{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card-box{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+.card-box h2{
+    color:#0d6efd;
+    margin-bottom:10px;
+}
+
+.form-container{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+    margin-bottom:20px;
+}
+
+.input-box{
+    margin-bottom:15px;
+}
+
+.input-box input,
+.input-box select{
+    width:100%;
+    padding:12px;
+    border:2px solid #dbe7ff;
+    border-radius:10px;
+    outline:none;
+}
+
+.btn{
+    width:100%;
+    padding:12px;
+    background:#0d6efd;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.btn:hover{
+    background:#0056d6;
+}
+
+#message{
+    margin-top:10px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.search-box{
+    margin-bottom:20px;
+}
+
+.search-box input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+}
+
+#studentList{
+    display:grid;
+    gap:15px;
+}
+
+.student-card{
+    background:white;
+    padding:15px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+.student-card button{
+    margin-top:10px;
+    padding:8px 12px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    color:white;
+}
+
+.delete-btn{
+    background:red;
+}
+
+.dark-mode{
+    background:#121212;
+}
+
+.dark-mode .header,
+.dark-mode .form-container,
+.dark-mode .card-box,
+.dark-mode .student-card{
+    background:#1e1e1e;
+    color:white;
+}
+
+.toggle-btn{
+    margin-bottom:20px;
+    background:black;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1><i class="fa-solid fa-graduation-cap"></i> College Admission System</h1>
+        <p>Student Registration Dashboard</p>
+    </div>
+
+    <button class="btn toggle-btn" onclick="toggleDarkMode()">
+        🌙 Toggle Dark Mode
+    </button>
+
+    <div class="dashboard">
+        <div class="card-box">
+            <h2>Total Students</h2>
+            <p id="totalStudents">0</p>
+        </div>
+
+        <div class="card-box">
+            <h2>Departments</h2>
+            <p>4</p>
+        </div>
+
+        <div class="card-box">
+            <h2>Status</h2>
+            <p>Online</p>
+        </div>
+    </div>
+
+    <div class="form-container">
+
+        <div class="input-box">
+            <input type="text" id="name" placeholder="Full Name">
+        </div>
+
+        <div class="input-box">
+            <input type="email" id="email" placeholder="Email">
+        </div>
+
+        <div class="input-box">
+            <input type="tel" id="phone" placeholder="Phone Number">
+        </div>
+
+        <div class="input-box">
+            <input type="date" id="date">
+        </div>
+
+        <div class="input-box">
+            <select id="department">
+                <option value="">Select Department</option>
+                <option>Computer Science</option>
+                <option>Engineering</option>
+                <option>Business Administration</option>
+                <option>Mass Communication</option>
+            </select>
+        </div>
+
+        <button class="btn" onclick="registerStudent()">
+            Register Student
+        </button>
+
+        <p id="message"></p>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="search" placeholder="Search Student..." onkeyup="searchStudent()">
+    </div>
+
+    <div id="studentList"></div>
+
+</div>
+
+<script>
+let students = JSON.parse(localStorage.getItem("students")) || [];
+
+function registerStudent(){
+
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let phone = document.getElementById("phone").value;
+    let date = document.getElementById("date").value;
+    let department = document.getElementById("department").value;
+
+    if(name === "" || email === "" || phone === "" || date === "" || department === ""){
+        document.getElementById("message").style.color = "red";
+        document.getElementById("message").innerHTML = "⚠ Please fill all fields!";
+        return;
+    }
+
+    let student = {
+        name,
+        email,
+        phone,
+        date,
+        department
+    };
+
+    students.push(student);
+
+    localStorage.setItem("students", JSON.stringify(students));
+
+    document.getElementById("message").style.color = "green";
+    document.getElementById("message").innerHTML = "🎉 Student Registered Successfully!";
+
+    displayStudents();
+
+    document.getElementById("name").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("date").value = "";
+    document.getElementById("department").value = "";
+}
+
+function displayStudents(){
+
+    let studentList = document.getElementById("studentList");
+
+    studentList.innerHTML = "";
+
+    students.forEach((student,index)=>{
+
+        studentList.innerHTML += `
+        <div class="student-card">
+            <h3>👤 ${student.name}</h3>
+            <p>📧 ${student.email}</p>
+            <p>📞 ${student.phone}</p>
+            <p>📅 ${student.date}</p>
+            <p>🏫 ${student.department}</p>
+
+            <button class="delete-btn" onclick="deleteStudent(${index})">
+                Delete
+            </button>
+        </div>
+        `;
+    });
+
+    document.getElementById("totalStudents").innerHTML = students.length;
+}
+
+function deleteStudent(index){
+
+    students.splice(index,1);
+
+    localStorage.setItem("students", JSON.stringify(students));
+
+    displayStudents();
+}
+
+function searchStudent(){
+
+    let input = document.getElementById("search").value.toLowerCase();
+
+    let cards = document.querySelectorAll(".student-card");
+
+    cards.forEach(card => {
+
+        if(card.innerText.toLowerCase().includes(input)){
+            card.style.display = "block";
+        }else{
+            card.style.display = "none";
+        }
+
+    });
+}
+
+function toggleDarkMode(){
+    document.body.classList.toggle("dark-mode");
+}
+
+displayStudents();
+</script>
+
+</body>
+</html>
