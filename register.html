@@ -70,20 +70,31 @@ button{
 
 <script>
 
-function register(){
+fufunction register(){
 
-    let user = {
-        name: document.getElementById("name").value,
-        matric: document.getElementById("matric").value,
-        password: document.getElementById("password").value,
-        dept: document.getElementById("dept").value,
-        level: document.getElementById("level").value
-    };
+    let name = document.getElementById("name").value;
+    let matric = document.getElementById("matric").value;
+    let dept = document.getElementById("dept").value;
+    let level = document.getElementById("level").value;
 
-    if(!user.name || !user.matric || !user.password || !user.dept || !user.level){
+    if(!name || !matric || !dept || !level){
         alert("Fill all fields");
         return;
     }
+
+    let user = {
+        name,
+        matric,
+        dept,
+        level
+    };
+
+    localStorage.setItem("user", JSON.stringify(user));
+
+    alert("Registration Successful!");
+
+    window.location.href = "index.html";
+}
 
     // SAVE USER (THIS IS THE MOST IMPORTANT PART)
     localStorage.setItem("user", JSON.stringify(user));
