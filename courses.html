@@ -2,37 +2,36 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Select Courses</title>
+<title>Courses</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
     font-family:Arial;
-    background:#f4f6f9;
+    background:#eef2f7;
     margin:0;
-    padding:0;
     display:flex;
     justify-content:center;
 }
 
 .container{
-    width:350px;
-    margin-top:60px;
+    width:360px;
+    margin-top:50px;
     background:white;
     padding:20px;
     border-radius:10px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    box-shadow:0 3px 10px rgba(0,0,0,0.1);
 }
 
 h2{
     text-align:center;
+    color:#1d2671;
 }
 
 .course{
-    display:block;
     padding:12px;
     margin:10px 0;
-    border:1px solid #ccc;
+    border:1px solid #ddd;
     border-radius:8px;
     cursor:pointer;
     text-align:center;
@@ -44,15 +43,15 @@ h2{
     color:white;
 }
 
-.course.selected{
+.selected{
     background:#1d2671;
     color:white;
 }
 
-.bottom-btn{
-    margin-top:20px;
+button{
     width:100%;
     padding:12px;
+    margin-top:15px;
     border:none;
     background:#1d2671;
     color:white;
@@ -60,7 +59,7 @@ h2{
     cursor:pointer;
 }
 
-.bottom-btn:hover{
+button:hover{
     background:#c33764;
 }
 </style>
@@ -75,20 +74,32 @@ h2{
 <div class="course" onclick="toggle(this)">MTH101</div>
 <div class="course" onclick="toggle(this)">GST101</div>
 <div class="course" onclick="toggle(this)">PHY101</div>
+<div class="course" onclick="toggle(this)">CHM101</div>
 
-<button class="bottom-btn" onclick="submitCourses()">
-Submit Courses
-</button>
+<button onclick="submitCourses()">Save Courses</button>
 </div>
 
 <script>
 
+let selected = [];
+
 function toggle(el){
+    let course = el.innerText;
+
     el.classList.toggle("selected");
+
+    if(selected.includes(course)){
+        selected = selected.filter(c => c !== course);
+    }else{
+        selected.push(course);
+    }
 }
 
 function submitCourses(){
-    alert("Courses Registered Successfully!");
+    localStorage.setItem("courses", JSON.stringify(selected));
+
+    alert("Courses Saved Successfully!");
+
     window.location.href = "dashboard.html";
 }
 
