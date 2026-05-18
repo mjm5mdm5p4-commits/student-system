@@ -2,301 +2,85 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Student Portal Dashboard</title>
+<title>Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<script>
+if(localStorage.getItem("loggedIn") !== "true"){
+    window.location.href = "index.html";
+}
+</script>
+
 <style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
-}
-
 body{
+    margin:0;
+    font-family:Arial;
     background:#eef2f7;
-    display:flex;
-    transition:0.3s;
 }
 
-/* Sidebar */
 .sidebar{
-    width:240px;
+    width:200px;
     height:100vh;
-    background:linear-gradient(180deg,#1d2671,#c33764);
+    position:fixed;
+    background:#1d2671;
     color:white;
     padding:20px;
-    position:fixed;
-    transition:0.3s;
-}
-
-.sidebar h2{
-    margin-bottom:30px;
-    text-align:center;
 }
 
 .sidebar a{
     display:block;
     color:white;
-    text-decoration:none;
-    padding:12px;
     margin:10px 0;
-    border-radius:8px;
-    transition:0.3s;
+    text-decoration:none;
 }
 
-.sidebar a:hover{
-    background:rgba(255,255,255,0.2);
-}
-
-/* Main */
 .main{
-    margin-left:260px;
-    width:100%;
+    margin-left:220px;
     padding:20px;
-}
-
-/* Header */
-.header{
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    box-shadow:0 3px 10px rgba(0,0,0,0.1);
-    transition:0.3s;
-}
-
-.profile{
-    display:flex;
-    align-items:center;
-    gap:15px;
-}
-
-/* Profile Image */
-.avatar-container{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-}
-
-/* Cards */
-.grid{
-    margin-top:20px;
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
 }
 
 .card{
     background:white;
     padding:20px;
-    border-radius:12px;
-    box-shadow:0 3px 10px rgba(0,0,0,0.1);
-    transition:0.3s;
+    margin:10px 0;
 }
-
-.card:hover{
-    transform:translateY(-5px);
-}
-
-.card h3{
-    color:#1d2671;
-    margin-bottom:10px;
-}
-
-/* Buttons */
-button{
-    padding:10px 15px;
-    border:none;
-    background:#1d2671;
-    color:white;
-    border-radius:8px;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-button:hover{
-    background:#c33764;
-}
-
-/* Footer */
-.footer{
-    margin-top:30px;
-    text-align:center;
-    color:#666;
-}
-
-/* Dark Mode */
-.dark{
-    background:#111;
-    color:white;
-}
-
-.dark .card{
-    background:#222;
-    color:white;
-}
-
-.dark .header{
-    background:#222;
-    color:white;
-}
-
-.dark .sidebar{
-    background:black;
-}
-
-.dark .card h3{
-    color:#fff;
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- Sidebar -->
 <div class="sidebar">
+<h3>Menu</h3>
 
-<h2>🎓 Student Portal</h2>
-
-<a href="dashboard.html">🏠 Dashboard</a>
-<a href="register.html">📝 Register</a>
-<a href="courses.html">📚 Courses</a>
-<a href="results.html">📊 Results</a>
-<a href="index.html">🚪 Logout</a>
-
+<a href="dashboard.html">Dashboard</a>
+<a href="results.html">Results</a>
+<a href="#" onclick="logout()">Logout</a>
 </div>
 
-<!-- Main -->
 <div class="main">
 
-<!-- Header -->
-<div class="header">
-
-<div class="profile">
-
-<!-- Profile Picture Upload -->
-<div class="avatar-container">
-
-<img id="profilePic"
-src="https://via.placeholder.com/60"
-style="
-width:60px;
-height:60px;
-border-radius:50%;
-object-fit:cover;
-">
-
-<input type="file"
-id="upload"
-accept="image/*"
-onchange="loadImage(event)"
-style="margin-top:10px; width:90px;">
-
-</div>
-
-<div>
-<h2>Welcome 👋 <span id="name"></span></h2>
-<p>Matric Number: <span id="matric"></span></p>
-
-<br>
-
-<!-- Dark Mode Button -->
-<button onclick="darkMode()">
-🌙 Dark Mode
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- Cards -->
-<div class="grid">
+<h2>Welcome <span id="name"></span></h2>
 
 <div class="card">
-<h3>Department</h3>
-<p id="dept">Not Set</p>
-</div>
-
-<div class="card">
-<h3>Level</h3>
-<p id="level">Not Set</p>
-</div>
-
-<div class="card">
-<h3>Status</h3>
-<p id="status">Checking...</p>
-</div>
-
-<div class="card">
-<h3>Registered Courses</h3>
-<p id="courses">No courses selected</p>
-</div>
-
-</div>
-
-<!-- Footer -->
-<div class="footer">
-<p>© 2026 Student Management System</p>
+<p>Matric: <span id="matric"></span></p>
+<p>Department: <span id="dept"></span></p>
+<p>Level: <span id="level"></span></p>
 </div>
 
 </div>
 
 <script>
 
-/* Student info */
-let name = localStorage.getItem("name");
-let matric = localStorage.getItem("matric");
-let dept = localStorage.getItem("dept");
-let level = localStorage.getItem("level");
+let user = JSON.parse(localStorage.getItem("user"));
 
-document.getElementById("name").innerText = name;
-document.getElementById("matric").innerText = matric;
-document.getElementById("dept").innerText = dept;
-document.getElementById("level").innerText = level;
+document.getElementById("name").innerText = user.name;
+document.getElementById("matric").innerText = user.matric;
+document.getElementById("dept").innerText = user.dept;
+document.getElementById("level").innerText = user.level;
 
-/* Status */
-if(localStorage.getItem("registered") === "yes"){
-    document.getElementById("status").innerText =
-    "Registered ✔";
-}else{
-    document.getElementById("status").innerText =
-    "Not Registered";
-}
-
-/* Courses */
-let courses = JSON.parse(localStorage.getItem("courses"));
-
-if(courses && courses.length > 0){
-    document.getElementById("courses").innerText =
-    courses.join(", ");
-}else{
-    document.getElementById("courses").innerText =
-    "No courses selected";
-}
-
-/* Profile Image Upload */
-function loadImage(event){
-
-    let image =
-    document.getElementById("profilePic");
-
-    image.src =
-    URL.createObjectURL(event.target.files[0]);
-
-}
-
-/* Dark Mode */
-function darkMode(){
-
-    document.body.classList.toggle("dark");
-
+function logout(){
+    localStorage.removeItem("loggedIn");
+    window.location.href = "index.html";
 }
 
 </script>
