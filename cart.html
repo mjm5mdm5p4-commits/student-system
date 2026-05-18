@@ -1,7 +1,8 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-<title>Cart - Abikeh Herbal</title>
+<title>Cart</title>
 
 <style>
 body{
@@ -34,21 +35,23 @@ button{
 
 <body>
 
-<h2>🛒 Your Cart</h2>
+<h2>Your Cart 🛒</h2>
 
 <div id="cart"></div>
 
-<h3 class="total" id="total"></h3>
+<h3 id="total"></h3>
 
 <a href="checkout.html">Proceed to Checkout</a>
 
 <script>
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
 let box = document.getElementById("cart");
 let total = 0;
 
 function render(){
+
     box.innerHTML = "";
     total = 0;
 
@@ -57,10 +60,12 @@ function render(){
 
         let div = document.createElement("div");
         div.className = "card";
+
         div.innerHTML = `
             ${item.name} - ₦${item.price}
             <button onclick="removeItem(${i})">Remove</button>
         `;
+
         box.appendChild(div);
     });
 
