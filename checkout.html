@@ -4,14 +4,18 @@
 <title>Checkout</title>
 
 <style>
-body{font-family:Arial;background:#f4f6fb;padding:20px;}
+body{
+    font-family:Arial;
+    background:#f4f6fb;
+    padding:20px;
+}
 
 .box{
+    max-width:400px;
+    margin:auto;
     background:white;
     padding:20px;
     border-radius:10px;
-    max-width:400px;
-    margin:auto;
 }
 
 input{
@@ -22,9 +26,9 @@ input{
 
 button{
     width:100%;
+    padding:12px;
     background:#1b5e20;
     color:white;
-    padding:12px;
     border:none;
     border-radius:8px;
 }
@@ -37,20 +41,36 @@ button{
 
 <h2>Checkout</h2>
 
-<input placeholder="Full Name">
-<input placeholder="Phone Number">
-<input placeholder="Address">
+<input id="name" placeholder="Full Name">
+<input id="phone" placeholder="Phone Number">
+<input id="address" placeholder="Address">
 
-<button onclick="order()">Place Order</button>
+<button onclick="order()">Place Order via WhatsApp</button>
 
 </div>
 
 <script>
+
 function order(){
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    let msg = "Hello, I want to order:%0A";
+
+    cart.forEach(c=>{
+        msg += "- " + c.name + " ₦" + c.price + "%0A";
+    });
+
+    let name = document.getElementById("name").value;
+    let phone = document.getElementById("phone").value;
+
+    msg += "%0AName: " + name + "%0APhone: " + phone;
+
+    window.open("https://wa.me/234XXXXXXXXXX?text=" + msg);
+
     localStorage.removeItem("cart");
-    alert("Order placed successfully!");
-    window.location.href = "index.html";
 }
+
 </script>
 
 </body>
