@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Login</title>
+<title>Student Portal</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 body{
     margin:0;
-    font-family:Arial;
+    font-family:Arial, sans-serif;
     height:100vh;
     display:flex;
     justify-content:center;
@@ -21,12 +22,12 @@ body{
     width:320px;
     padding:30px;
     border-radius:12px;
+    text-align:center;
 }
 
-input{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
+h1{
+    color:#1d2671;
+    margin-bottom:20px;
 }
 
 button{
@@ -35,12 +36,20 @@ button{
     background:#1d2671;
     color:white;
     border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
 }
 
-.error{
-    color:red;
-    text-align:center;
+button:hover{
+    background:#c33764;
 }
+
+p{
+    margin-top:10px;
+    color:#555;
+}
+
 </style>
 </head>
 
@@ -48,45 +57,15 @@ button{
 
 <div class="box">
 
-<h2>Login</h2>
+<h1>Student Portal</h1>
 
-<input id="matric" placeholder="Matric Number">
-<input id="password" type="password" placeholder="Password">
+<p>Welcome to your system</p>
 
-<button onclick="login()">Login</button>
-
-<p class="error" id="error"></p>
+<a href="dashboard.html">
+    <button>Enter Dashboard</button>
+</a>
 
 </div>
-
-<script>
-
-function login(){
-
-    let userData = localStorage.getItem("user");
-
-    if(!userData){
-        document.getElementById("error").innerText = "No account found. Please register first.";
-        return;
-    }
-
-    let user = JSON.parse(userData);
-
-    let matric = document.getElementById("matric").value;
-    let password = document.getElementById("password").value;
-
-    if(matric === user.matric && password === user.password){
-
-        localStorage.setItem("loggedIn","true");
-
-        window.location.href = "dashboard.html";
-
-    }else{
-        document.getElementById("error").innerText = "Wrong login details";
-    }
-}
-
-</script>
 
 </body>
 </html>
