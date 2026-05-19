@@ -151,8 +151,16 @@ function loadProducts(){
         <div class="card">
             <img src="${p.image}">
             <h3>${p.name}</h3>
+
             <p class="price">₦${p.price}</p>
-            <button onclick="addToCart(${p.id})">Add to Cart</button>
+
+            <p style="font-size:13px;color:#555;">
+                ${p.description || ""}
+            </p>
+
+            <button onclick="addToCart(${p.id})">
+                Add to Cart
+            </button>
         </div>
         `;
     });
@@ -166,12 +174,14 @@ function addToCart(id){
 
     saveCart();
 
-    alert("Added to cart");
+    alert("Added to cart ✅");
 }
 
 loadProducts();
 
 </script>
+
+<script src="store.js"></script>
 
 </body>
 </html>
