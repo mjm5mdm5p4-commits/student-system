@@ -95,23 +95,25 @@ function removeItem(i){
     localStorage.setItem("cart", JSON.stringify(cart));
     render();
 }
-
 function sendToWhatsApp(){
 
-    let message = "Hello Admin, I want to order:%0A%0A";
+    let adminWhatsApp = "2349033350425";
+
+    let message = "Hello Admin, I want to order:\n\n";
 
     cart.forEach(item => {
-        message += "- " + item.name + " (₦" + item.price + ")%0A";
+        message += "- " + item.name + " (₦" + item.price + ")\n";
     });
 
     let total = cart.reduce((sum, item) => sum + item.price, 0);
 
-    message += "%0ATotal: ₦" + total;
+    message += "\nTotal: ₦" + total;
 
-    let url = "https://wa.me/" + adminWhatsApp + "?text=" + message;
+    let url = "https://wa.me/" + adminWhatsApp + "?text=" + encodeURIComponent(message);
 
     window.open(url, "_blank");
 }
+
 
 render();
 
