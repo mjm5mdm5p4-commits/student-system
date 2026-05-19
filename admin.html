@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Admin Panel</title>
+<title>Admin</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
 body{
     font-family:Arial;
     margin:0;
@@ -14,79 +13,54 @@ body{
     background:#f5f7fb;
 }
 
-/* LOGIN BOX */
-.loginBox{
+.box{
     max-width:400px;
     margin:auto;
     background:white;
     padding:20px;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
     text-align:center;
 }
 
 input{
     width:100%;
-    padding:12px;
+    padding:10px;
     margin-top:10px;
-    border-radius:10px;
     border:1px solid #ccc;
-    box-sizing:border-box;
 }
 
 button{
     width:100%;
-    padding:12px;
+    padding:10px;
     margin-top:10px;
-    border:none;
-    border-radius:10px;
-    background:linear-gradient(135deg,#1b5e20,#43a047);
+    background:#1b5e20;
     color:white;
-    font-weight:bold;
-    cursor:pointer;
+    border:none;
 }
 
-/* ADMIN AREA */
 #adminArea{
     display:none;
-    max-width:900px;
-    margin:auto;
+    margin-top:20px;
 }
-
-h2{
-    text-align:center;
-    color:#1b5e20;
-}
-
-/* ORDER CARD */
-.orderCard{
-    background:white;
-    padding:15px;
-    margin:10px 0;
-    border-radius:10px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.1);
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-<div class="loginBox" id="loginBox">
+<div class="box" id="loginBox">
 
     <h2>Admin Login</h2>
 
-    <input type="password" id="adminPass" placeholder="Enter Admin Password">
+    <input type="password" id="pass" placeholder="Password">
 
-    <button onclick="checkLogin()">Login</button>
+    <button onclick="login()">Login</button>
 
 </div>
 
-<!-- ADMIN AREA -->
 <div id="adminArea">
 
-    <h2>📦 Orders Dashboard</h2>
+    <h2>Orders</h2>
 
     <button onclick="loadOrders()">View Orders</button>
 
@@ -96,17 +70,16 @@ h2{
 
 <script>
 
-/* LOGIN FUNCTION */
-function checkLogin(){
+/* LOGIN */
+function login(){
 
-    let pass = document.getElementById("adminPass").value;
+    let pass = document.getElementById("pass").value;
 
     if(pass === "Bikeh2025"){
         document.getElementById("loginBox").style.display = "none";
         document.getElementById("adminArea").style.display = "block";
-        alert("Login successful ✅");
     } else {
-        alert("Wrong password ❌");
+        alert("Wrong password");
     }
 }
 
@@ -120,31 +93,18 @@ function loadOrders(){
     box.innerHTML = "";
 
     if(orders.length === 0){
-        box.innerHTML = "<p style='color:red;text-align:center;'>No orders yet ❌</p>";
+        box.innerHTML = "<p>No orders yet</p>";
         return;
     }
 
-    orders.forEach((order, index)=>{
+    orders.forEach((order, i)=>{
 
         box.innerHTML += `
-        <div class="orderCard">
-
-            <h3>Order #${index + 1}</h3>
-
-            <p><b>Status:</b> ${order.status || "Pending"}</p>
-            <p><b>Total:</b> ₦${order.total || 0}</p>
-            <p><b>Date:</b> ${order.date || "No date"}</p>
-
-            <hr>
-
-            <b>Items:</b><br>
-
-            ${
-                (order.items || []).map(item => `
-                    • ${item.name} × ${item.qty || 1}<br>
-                `).join("")
-            }
-
+        <div style="background:#fff;padding:10px;margin:10px 0;border:1px solid #ddd;">
+            <h3>Order ${i + 1}</h3>
+            <p>Total: ₦${order.total}</p>
+            <p>Status: ${order.status}</p>
+            <p>Date: ${order.date}</p>
         </div>
         `;
     });
