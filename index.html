@@ -138,6 +138,29 @@ button:hover{
     opacity:0.9;
 }
 
+/* TRUST SECTION */
+.trust-box{
+    background:white;
+    padding:20px;
+    margin:20px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.trust-box h2{
+    color:#1b5e20;
+    margin-bottom:10px;
+}
+
+.trust-box p{
+    color:#444;
+    line-height:1.6;
+}
+
+.warning{
+    border-left:5px solid #ff9800;
+}
+
 </style>
 </head>
 
@@ -166,11 +189,47 @@ button:hover{
 <!-- SEARCH -->
 <input type="text" id="search" placeholder="Search products 🔍">
 
+<!-- PRODUCTS -->
 <div class="grid" id="productBox"></div>
 
 </div>
 
-<!-- STORE DATA -->
+<!-- TRUST SECTION -->
+<div class="trust-box">
+    <h2>🌿 About Us</h2>
+    <p>
+        Bikeh Herbal Therapy Store provides natural herbal wellness support products
+        designed to help balance the body, boost strength, and improve overall wellness.
+    </p>
+</div>
+
+<div class="trust-box">
+    <h2>📦 How It Works</h2>
+    <p>
+        1. Browse products on our store<br>
+        2. Add items to your cart 🛒<br>
+        3. Go to checkout and place your order via WhatsApp 📲<br>
+        4. We deliver your product to you
+    </p>
+</div>
+
+<div class="trust-box">
+    <h2>📞 Contact Us</h2>
+    <p>
+        WhatsApp Orders: <b>09033350425</b><br>
+        Available: Mon - Sat | 9AM - 6PM
+    </p>
+</div>
+
+<div class="trust-box warning">
+    <h2>⚠️ Disclaimer</h2>
+    <p>
+        Our herbal products are traditional wellness support items.
+        Results may vary from person to person.
+    </p>
+</div>
+
+<!-- STORE -->
 <script src="store.js"></script>
 
 <script>
@@ -233,7 +292,7 @@ function addToCart(id){
     alert("Added to cart ✅");
 }
 
-/* LIVE UPDATE (SAFE) */
+/* LIVE UPDATE */
 function startLiveUpdate(){
     setInterval(()=>{
         loadProducts();
