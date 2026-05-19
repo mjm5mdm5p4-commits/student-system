@@ -14,13 +14,11 @@ body{
     background:#f5f7fb;
 }
 
-/* TITLE */
 h2{
     text-align:center;
     color:#1b5e20;
 }
 
-/* BOX */
 .box{
     background:white;
     padding:20px;
@@ -30,7 +28,6 @@ h2{
     margin:auto;
 }
 
-/* INPUT */
 input, textarea{
     width:100%;
     padding:12px;
@@ -41,7 +38,6 @@ input, textarea{
     box-sizing:border-box;
 }
 
-/* ORDER AREA */
 .orderBox{
     background:#f9f9f9;
     padding:15px;
@@ -49,7 +45,6 @@ input, textarea{
     margin-top:15px;
 }
 
-/* TOTAL */
 .total{
     font-size:20px;
     font-weight:bold;
@@ -57,7 +52,6 @@ input, textarea{
     margin-top:15px;
 }
 
-/* BUTTON */
 button{
     width:100%;
     padding:14px;
@@ -85,13 +79,10 @@ button:hover{
 <div class="box">
 
 <input type="text" id="name" placeholder="Your Full Name">
-
 <input type="tel" id="phone" placeholder="Phone Number">
-
 <textarea id="address" placeholder="Delivery Address"></textarea>
 
 <div class="orderBox" id="orderBox"></div>
-
 <div class="total" id="total"></div>
 
 <button onclick="placeOrder()">
@@ -103,9 +94,7 @@ Place Order via WhatsApp 📲
 <script>
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
 let orderBox = document.getElementById("orderBox");
-let total = 0;
 
 /* LOAD ORDER */
 function loadOrder(){
@@ -114,8 +103,11 @@ function loadOrder(){
 
     if(cart.length === 0){
         orderBox.innerHTML = "<p>Your cart is empty 🛒</p>";
+        document.getElementById("total").innerText = "";
         return;
     }
+
+    let total = 0;
 
     cart.forEach(item=>{
 
@@ -142,30 +134,31 @@ function placeOrder(){
     let name = document.getElementById("name").value;
     let phone = document.getElementById("phone").value;
     let address = document.getElementById("address").value;
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
-orders.push({
-    items: cart,
-    total: total,
-    status: "Pending",
-    date: new Date().toLocaleString()
-});
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-orders.push({
-    items: cart,
-    total: total,
-    status: "Pending",
-    date: new Date().toLocaleString()
-});
-
-localStorage.setItem("orders", JSON.stringify(orders));
-localStorage.setItem("orders", JSON.stringify(orders));
     if(!name || !phone || !address){
         alert("Please fill all fields");
         return;
     }
 
+    // Recalculate total correctly
+    let total = 0;
+    cart.forEach(item=>{
+        total += item.price * (item.qty || 1);
+    });
+
+    /* SAVE ORDER (FIXED) */
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+    orders.push({
+        items: cart,
+        total: total,
+        status: "Pending",
+        date: new Date().toLocaleString()
+    });
+
+    localStorage.setItem("orders", JSON.stringify(orders));
+
+    /* WHATSAPP MESSAGE */
     let message = `🌿 NEW ORDER
 
 👤 Name: ${name}
@@ -176,12 +169,8 @@ localStorage.setItem("orders", JSON.stringify(orders));
 `;
 
     cart.forEach(item=>{
-
-        let qty = item.qty || 1;
-
-        message += `
-- ${item.name}
-  ₦${item.price} × ${qty}
+        message += `- ${item.name}
+  ₦${item.price} × ${item.qty || 1}
 `;
     });
 
