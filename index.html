@@ -4,8 +4,6 @@
 <title>Bikeh Herbal Therapy Store</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script src="store.js"></script>
-
 <style>
 
 body{
@@ -33,10 +31,6 @@ header p{
 }
 
 /* NAV */
-nav{
-    margin-top:15px;
-}
-
 nav a{
     color:white;
     text-decoration:none;
@@ -71,12 +65,7 @@ nav a{
     padding:15px;
     border-radius:15px;
     box-shadow:0 5px 15px rgba(0,0,0,0.08);
-    transition:0.3s;
     text-align:center;
-}
-
-.card:hover{
-    transform:translateY(-5px);
 }
 
 /* IMAGE */
@@ -96,12 +85,6 @@ button{
     background:#1b5e20;
     color:white;
     border-radius:8px;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-button:hover{
-    background:#2e7d32;
 }
 
 .price{
@@ -115,7 +98,6 @@ button:hover{
 <body>
 
 <header>
-
 <h1>🌿 BIKEH HERBAL THERAPY STORE</h1>
 <p>Your natural path to balance, wellness & vitality</p>
 
@@ -129,14 +111,15 @@ button:hover{
 </header>
 
 <div class="hero">
-Welcome to our herbal wellness store — natural products for everyday balance 🌿
+Welcome to our herbal wellness store 🌿
 </div>
 
 <div class="container">
-
 <div class="grid" id="productBox"></div>
-
 </div>
+
+<!-- LOAD STORE DATA FIRST -->
+<script src="store.js"></script>
 
 <script>
 
@@ -145,15 +128,18 @@ function loadProducts(){
     let box = document.getElementById("productBox");
     box.innerHTML = "";
 
+    if(!products || products.length === 0){
+        box.innerHTML = "<p>No products available yet.</p>";
+        return;
+    }
+
     products.forEach(p=>{
 
         box.innerHTML += `
         <div class="card">
             <img src="${p.image}">
             <h3>${p.name}</h3>
-
             <p class="price">₦${p.price}</p>
-
             <p style="font-size:13px;color:#555;">
                 ${p.description || ""}
             </p>
@@ -165,6 +151,7 @@ function loadProducts(){
         `;
     });
 }
+
 function addToCart(id){
 
     let item = products.find(p => p.id === id);
@@ -181,12 +168,9 @@ function addToCart(id){
     alert("Added to cart ✅");
 }
 
-
 loadProducts();
 
 </script>
-
-<script src="store.js"></script>
 
 </body>
 </html>
