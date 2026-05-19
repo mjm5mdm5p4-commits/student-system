@@ -3,81 +3,184 @@
 <head>
 <title>Checkout</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <style>
+
 body{
-    font-family:Arial;
-    background:#f4f6fb;
+    margin:0;
     padding:20px;
+    font-family:Arial;
+    background:#f5f7fb;
 }
 
+/* TITLE */
+h2{
+    text-align:center;
+    color:#1b5e20;
+}
+
+/* BOX */
 .box{
-    max-width:400px;
-    margin:auto;
     background:white;
     padding:20px;
-    border-radius:10px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    max-width:500px;
+    margin:auto;
 }
 
-input{
-    width:100%;
-    padding:10px;
-    margin:10px 0;
-}
-
-button{
+/* INPUT */
+input, textarea{
     width:100%;
     padding:12px;
-    background:#1b5e20;
-    color:white;
-    border:none;
-    border-radius:8px;
+    margin:10px 0;
+    border-radius:10px;
+    border:1px solid #ccc;
+    font-size:15px;
+    box-sizing:border-box;
 }
+
+/* ORDER AREA */
+.orderBox{
+    background:#f9f9f9;
+    padding:15px;
+    border-radius:10px;
+    margin-top:15px;
+}
+
+/* TOTAL */
+.total{
+    font-size:20px;
+    font-weight:bold;
+    color:#1b5e20;
+    margin-top:15px;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(135deg,#1b5e20,#43a047);
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    margin-top:20px;
+    font-weight:bold;
+}
+
+button:hover{
+    opacity:0.9;
+}
+
 </style>
 </head>
 
 <body>
 
+<h2>🧾 Checkout</h2>
+
 <div class="box">
 
-<h2>Checkout 🌿</h2>
+<input type="text" id="name" placeholder="Your Full Name">
 
-<input id="name" placeholder="Full Name">
-<input id="phone" placeholder="Phone Number">
-<input id="address" placeholder="Address">
+<input type="tel" id="phone" placeholder="Phone Number">
 
-<button onclick="order()">Place Order via WhatsApp</button>
+<textarea id="address" placeholder="Delivery Address"></textarea>
+
+<div class="orderBox" id="orderBox"></div>
+
+<div class="total" id="total"></div>
+
+<button onclick="placeOrder()">
+Place Order via WhatsApp 📲
+</button>
 
 </div>
 
 <script>
 
-function order(){
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let orderBox = document.getElementById("orderBox");
+let total = 0;
+
+/* LOAD ORDER */
+function loadOrder(){
+
+    orderBox.innerHTML = "";
 
     if(cart.length === 0){
-        alert("Cart is empty");
+        orderBox.innerHTML = "<p>Your cart is empty 🛒</p>";
         return;
     }
 
-    let msg = "Hello, I want to order:%0A%0A";
+    cart.forEach(item=>{
 
-    cart.forEach(c=>{
-        msg += "- " + c.name + " ₦" + c.price + "%0A";
+        let qty = item.qty || 1;
+        let sub = item.price * qty;
+
+        total += sub;
+
+        orderBox.innerHTML += `
+            <p>
+                <b>${item.name}</b><br>
+                ₦${item.price} × ${qty} = ₦${sub}
+            </p>
+        `;
     });
+
+    document.getElementById("total").innerText =
+        "Total: ₦" + total;
+}
+
+/* PLACE ORDER */
+function placeOrder(){
 
     let name = document.getElementById("name").value;
     let phone = document.getElementById("phone").value;
     let address = document.getElementById("address").value;
 
-    msg += "%0AName: " + name;
-    msg += "%0APhone: " + phone;
-    msg += "%0AAddress: " + address;
+    if(!name || !phone || !address){
+        alert("Please fill all fields");
+        return;
+    }
 
-    window.open("https://wa.me/2347044434241?text=" + msg);
+    let message = `🌿 NEW ORDER
 
-    localStorage.removeItem("cart");
+👤 Name: ${name}
+📞 Phone: ${phone}
+📍 Address: ${address}
+
+📦 Order Items:
+`;
+
+    cart.forEach(item=>{
+
+        let qty = item.qty || 1;
+
+        message += `
+- ${item.name}
+  ₦${item.price} × ${qty}
+`;
+    });
+
+    message += `
+
+💰 Total: ₦${total}
+
+Thank you for shopping with Bikeh Herbal Therapy Store 🌿`;
+
+    let whatsappURL =
+    "https://wa.me/2347044434241?text=" +
+    encodeURIComponent(message);
+
+    window.open(whatsappURL, "_blank");
 }
+
+loadOrder();
 
 </script>
 
