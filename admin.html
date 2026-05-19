@@ -41,48 +41,38 @@ button{
 button:hover{
     opacity:0.9;
 }
+
+a{
+    display:block;
+    text-align:center;
+    margin-top:15px;
+    color:#1b5e20;
+    font-weight:bold;
+    text-decoration:none;
+}
 </style>
 </head>
 
 <body>
-<script>
 
+<!-- 🔐 LOGIN PROTECTION -->
+<script>
 if(localStorage.getItem("adminAuth") !== "true"){
     window.location.href = "admin-login.html";
 }
-
-</script>
-<script>
-
-const adminPassword = "Hamzat2026@";
-const enteredPassword = prompt("Enter Admin Password");
-
-if (enteredPassword !== adminPassword) {
-
-    document.body.innerHTML = `
-        <div style="
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            height:100vh;
-            font-family:Arial;
-            background:#111;
-            color:white;
-            font-size:35px;
-        ">
-            Access Denied ❌
-        </div>
-    `;
-
-    throw new Error("Access Denied");
-
-}
-
 </script>
 
 <div class="box">
 
 <h2>Admin Panel 🌿</h2>
+
+<!-- LOGOUT -->
+<button onclick="logout()" style="background:red;margin-bottom:10px;">
+Logout
+</button>
+
+<!-- LINK TO ORDERS -->
+<a href="admin-orders.html">View Orders 📦</a>
 
 <input id="name" placeholder="Product Name">
 
@@ -97,7 +87,7 @@ if (enteredPassword !== adminPassword) {
 <script src="store.js"></script>
 
 <script>
-<a href="admin-orders.html">View Orders 📦</a>
+
 function addProduct(){
 
     let newP = {
@@ -108,11 +98,14 @@ function addProduct(){
     };
 
     products.push(newP);
-
     saveProducts();
 
     alert("Product Added Successfully ✅");
+}
 
+function logout(){
+    localStorage.removeItem("adminAuth");
+    window.location.href = "admin-login.html";
 }
 
 </script>
