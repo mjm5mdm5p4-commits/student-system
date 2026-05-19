@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Login</title>
+
+<style>
+body{
+    font-family:Arial;
+    background:#1b5e20;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.box{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    width:300px;
+    text-align:center;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    background:#1b5e20;
+    color:white;
+    border:none;
+    border-radius:6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>Admin Login 🔐</h2>
+
+<input type="password" id="pass" placeholder="Enter Password">
+
+<button onclick="login()">Login</button>
+
+</div>
+
+<script>
+
+function login(){
+
+    let password = document.getElementById("pass").value;
+
+    if(password === "Bikeh2026"){
+
+        localStorage.setItem("adminAuth", "true");
+
+        window.location.href = "admin.html";
+
+    } else {
+        alert("Wrong Password ❌");
+    }
+}
+
+</script>
+
+</body>
+</html>
