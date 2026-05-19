@@ -1,7 +1,8 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-<title>Admin Dashboard</title>
+<title>Bikeh Admin Dashboard</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -25,19 +26,20 @@ body{
     text-align:center;
 }
 
-/* TITLE */
+/* TITLES */
 h2{
     color:#1b5e20;
 }
 
-/* INPUT */
-input{
+/* INPUTS */
+input, textarea{
     width:100%;
     padding:12px;
     margin-top:10px;
     border:1px solid #ccc;
     border-radius:10px;
     box-sizing:border-box;
+    font-size:15px;
 }
 
 /* BUTTON */
@@ -60,7 +62,7 @@ button:hover{
 /* ADMIN AREA */
 #adminArea{
     display:none;
-    max-width:900px;
+    max-width:1000px;
     margin:20px auto;
 }
 
@@ -92,37 +94,34 @@ button:hover{
     margin-top:10px;
 }
 
-/* ORDER CARD */
-.orderCard{
-    background:white;
-    padding:15px;
-    margin:15px 0;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.08);
-}
-
-.orderCard h3{
-    color:#1b5e20;
-    margin-top:0;
-}
-
-.orderCard p{
-    margin:5px 0;
-}
-
-.items{
-    margin-top:10px;
-    padding-top:10px;
-    border-top:1px solid #ddd;
-}
-
-/* EMPTY */
-.empty{
-    text-align:center;
+/* SECTIONS */
+.section{
     background:white;
     padding:20px;
     border-radius:15px;
     margin-top:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+/* ORDER CARD */
+.orderCard{
+    background:#fff;
+    padding:15px;
+    margin-top:15px;
+    border-radius:12px;
+    border:1px solid #ddd;
+}
+
+.orderCard h3{
+    margin-top:0;
+    color:#1b5e20;
+}
+
+/* PRODUCT LIST */
+.productList{
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px solid #ddd;
 }
 
 </style>
@@ -144,7 +143,7 @@ button:hover{
 <!-- ADMIN AREA -->
 <div id="adminArea">
 
-    <h2 style="text-align:center;">📦 Admin Dashboard</h2>
+    <h2 style="text-align:center;">📦 Bikeh Admin Dashboard</h2>
 
     <!-- DASHBOARD -->
     <div class="dashboard">
@@ -159,11 +158,44 @@ button:hover{
             <p id="totalRevenue">₦0</p>
         </div>
 
+        <div class="card">
+            <h3>Total Products</h3>
+            <p id="totalProducts">0</p>
+        </div>
+
     </div>
 
-    <button onclick="loadOrders()">View Orders</button>
+    <!-- ADD PRODUCT -->
+    <div class="section">
 
-    <div id="ordersBox"></div>
+        <h2>➕ Add Product</h2>
+
+        <input type="text" id="pname" placeholder="Product Name">
+
+        <input type="number" id="pprice" placeholder="Product Price">
+
+        <input type="text" id="pimage" placeholder="Product Image URL">
+
+        <textarea id="pdesc" placeholder="Product Description"></textarea>
+
+        <button onclick="addProduct()">
+            Add Product
+        </button>
+
+    </div>
+
+    <!-- VIEW ORDERS -->
+    <div class="section">
+
+        <h2>📦 Orders</h2>
+
+        <button onclick="loadOrders()">
+            View Orders
+        </button>
+
+        <div id="ordersBox"></div>
+
+    </div>
 
 </div>
 
@@ -194,7 +226,13 @@ function loadDashboard(){
 
     let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
-    document.getElementById("totalOrders").innerText = orders.length;
+    let products = JSON.parse(localStorage.getItem("products")) || [];
+
+    document.getElementById("totalOrders").innerText =
+        orders.length;
+
+    document.getElementById("totalProducts").innerText =
+        products.length;
 
     let revenue = 0;
 
@@ -202,7 +240,60 @@ function loadDashboard(){
         revenue += Number(order.total || 0);
     });
 
-    document.getElementById("totalRevenue").innerText = "₦" + revenue;
+    document.getElementById("totalRevenue").innerText =
+        "₦" + revenue;
+}
+
+/* ADD PRODUCT */
+function addProduct(){
+
+    let name = document.getElementById("pname").value;
+
+    let price = document.getElementById("pprice").value;
+
+    let image = document.getElementById("pimage").value;
+
+    let desc = document.getElementById("pdesc").value;
+
+    if(!name || !price){
+
+        alert("Fill product name and price");
+
+        return;
+    }
+
+    let products =
+        JSON.parse(localStorage.getItem("products")) || [];
+
+    let newProduct = {
+
+        id: Date.now(),
+
+        name:name,
+
+        price:Number(price),
+
+        image:image,
+
+        description:desc
+
+    };
+
+    products.push(newProduct);
+
+    localStorage.setItem(
+        "products",
+        JSON.stringify(products)
+    );
+
+    alert("Product Added ✅");
+
+    document.getElementById("pname").value = "";
+    document.getElementById("pprice").value = "";
+    document.getElementById("pimage").value = "";
+    document.getElementById("pdesc").value = "";
+
+    loadDashboard();
 }
 
 /* LOAD ORDERS */
@@ -210,16 +301,15 @@ function loadOrders(){
 
     let box = document.getElementById("ordersBox");
 
-    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    let orders =
+        JSON.parse(localStorage.getItem("orders")) || [];
 
     box.innerHTML = "";
 
     if(orders.length === 0){
 
         box.innerHTML = `
-        <div class="empty">
-            <h3>No orders yet ❌</h3>
-        </div>
+        <p>No orders yet ❌</p>
         `;
 
         return;
@@ -232,19 +322,23 @@ function loadOrders(){
 
             <h3>Order #${i + 1}</h3>
 
-            <p><b>Status:</b> ${order.status || "Pending"}</p>
+            <p><b>Status:</b>
+            ${order.status || "Pending"}</p>
 
-            <p><b>Total:</b> ₦${order.total || 0}</p>
+            <p><b>Total:</b>
+            ₦${order.total || 0}</p>
 
-            <p><b>Date:</b> ${order.date || "No date"}</p>
+            <p><b>Date:</b>
+            ${order.date || "No date"}</p>
 
-            <div class="items">
+            <div class="productList">
 
-                <b>Items:</b><br><br>
+                <b>Products:</b><br><br>
 
                 ${
                     (order.items || []).map(item => `
-                        • ${item.name} × ${item.qty || 1}<br>
+                        • ${item.name}
+                        × ${item.qty || 1}<br>
                     `).join("")
                 }
 
