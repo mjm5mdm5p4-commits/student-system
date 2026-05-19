@@ -13,7 +13,7 @@ body{
     transition:0.3s;
 }
 
-/* HEADER (PREMIUM) */
+/* HEADER */
 header{
     background: linear-gradient(135deg,#0d3d12,#1b5e20,#43a047);
     background-size: 200% 200%;
@@ -172,27 +172,34 @@ button:hover{
     opacity:0.9;
 }
 
-/* TRUST SECTION */
-.trust-box{
+/* SLIDESHOW SECTION */
+.slide-container{
+    position:relative;
+    max-width:900px;
+    margin:20px auto;
+    padding:0 20px;
+}
+
+.slide{
+    display:none;
     background:white;
-    padding:20px;
-    margin:20px;
+    padding:25px;
     border-radius:15px;
     box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    text-align:center;
 }
 
-.trust-box h2{
+.slide.active{
+    display:block;
+}
+
+.slide h2{
     color:#1b5e20;
-    margin-bottom:10px;
 }
 
-.trust-box p{
+.slide p{
     color:#444;
     line-height:1.6;
-}
-
-.warning{
-    border-left:5px solid #ff9800;
 }
 
 </style>
@@ -234,28 +241,31 @@ button:hover{
 
 </div>
 
-<!-- TRUST -->
-<div class="trust-box">
-    <h2>🌿 About Us</h2>
-    <p>
-        Bikeh Herbal Therapy Store provides natural herbal wellness support products
-        designed to help balance the body, boost strength, and improve overall wellness.
-    </p>
-</div>
+<!-- SLIDESHOW SECTION -->
+<div class="slide-container">
 
-<div class="trust-box">
-    <h2>📦 How It Works</h2>
-    <p>
-        1. Browse products<br>
-        2. Add to cart 🛒<br>
-        3. Checkout via WhatsApp 📲<br>
-        4. We deliver to you
-    </p>
-</div>
+    <div class="slide active">
+        <h2>🌿 About Us</h2>
+        <p>
+            Bikeh Herbal Therapy Store provides natural herbal wellness support products
+            designed to help balance the body and improve wellness.
+        </p>
+    </div>
 
-<div class="trust-box">
-    <h2>📞 Contact</h2>
-    <p>WhatsApp: +234 7044434241</p>
+    <div class="slide">
+        <h2>📦 How It Works</h2>
+        <p>
+            Browse products → Add to cart 🛒 → Checkout via WhatsApp 📲 → Delivery 🚚
+        </p>
+    </div>
+
+    <div class="slide">
+        <h2>📞 Contact Us</h2>
+        <p>
+            WhatsApp Orders: +234 7044434241
+        </p>
+    </div>
+
 </div>
 
 <script src="store.js"></script>
@@ -315,6 +325,30 @@ function addToCart(id){
     saveCart();
     alert("Added to cart ✅");
 }
+
+/* SLIDESHOW */
+let slides = document.querySelectorAll(".slide");
+
+let currentSlide = 0;
+
+function showSlides(){
+
+    slides.forEach(slide=>{
+        slide.classList.remove("active");
+    });
+
+    currentSlide++;
+
+    if(currentSlide > slides.length){
+        currentSlide = 1;
+    }
+
+    slides[currentSlide - 1].classList.add("active");
+}
+
+setInterval(showSlides, 3000);
+
+showSlides();
 
 loadProducts();
 
