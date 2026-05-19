@@ -45,7 +45,13 @@ button:hover{
 </head>
 
 <body>
+<script>
 
+if(localStorage.getItem("adminAuth") !== "true"){
+    window.location.href = "admin-login.html";
+}
+
+</script>
 <script>
 
 const adminPassword = "Hamzat2026@";
