@@ -122,7 +122,18 @@ function sendToWhatsApp(){
     let message = "Hello Admin, I want to order:%0A%0A";
 
     let total = 0;
+let order = {
+    id: Date.now(),
+    name: name,
+    phone: phone,
+    address: address,
+    items: cart,
+    total: total
+};
 
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+orders.push(order);
+localStorage.setItem("orders", JSON.stringify(orders));
     cart.forEach(item => {
         let itemTotal = item.price * item.qty;
         total += itemTotal;
