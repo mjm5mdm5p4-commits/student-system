@@ -165,17 +165,22 @@ function loadProducts(){
         `;
     });
 }
-
 function addToCart(id){
 
     let item = products.find(p => p.id === id);
 
-    cart.push(item);
+    let existing = cart.find(c => c.id === id);
+
+    if(existing){
+        existing.qty += 1;
+    } else {
+        cart.push({...item, qty: 1});
+    }
 
     saveCart();
-
     alert("Added to cart ✅");
 }
+
 
 loadProducts();
 
