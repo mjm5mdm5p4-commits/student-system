@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Dashboard</title>
+
+<style>
+body{
+    font-family:Arial;
+    background:#f4f6fb;
+    padding:20px;
+}
+
+.box{
+    max-width:600px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    text-align:center;
+}
+
+.card{
+    background:#1b5e20;
+    color:white;
+    padding:20px;
+    margin:10px 0;
+    border-radius:10px;
+    font-size:20px;
+}
+
+a{
+    display:block;
+    margin-top:15px;
+    color:#1b5e20;
+    font-weight:bold;
+    text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🔐 SECURITY CHECK -->
+<script>
+if(localStorage.getItem("adminAuth") !== "true"){
+    window.location.href = "admin-login.html";
+}
+</script>
+
+<div class="box">
+
+<h2>📊 Admin Dashboard</h2>
+
+<div class="card" id="orders"></div>
+<div class="card" id="products"></div>
+<div class="card" id="items"></div>
+
+<a href="admin.html">⬅ Back to Admin Panel</a>
+
+</div>
+
+<script>
+
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+let products = JSON.parse(localStorage.getItem("products")) || [];
+
+let totalItems = 0;
+
+orders.forEach(o=>{
+    o.items.forEach(i=>{
+        totalItems += i.qty;
+    });
+});
+
+document.getElementById("orders").innerText =
+"📦 Total Orders: " + orders.length;
+
+document.getElementById("products").innerText =
+"🛒 Total Products: " + products.length;
+
+document.getElementById("items").innerText =
+"👤 Total Items Sold: " + totalItems;
+
+</script>
+
+</body>
+</html>
