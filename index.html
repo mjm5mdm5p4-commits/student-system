@@ -132,7 +132,13 @@ function loadProducts(){
         box.innerHTML = "<p>No products available yet.</p>";
         return;
     }
+function startLiveUpdate(){
+    setInterval(()=>{
+        loadProducts();
+    }, 2000);
+}
 
+startLiveUpdate();
     products.forEach(p=>{
 
         box.innerHTML += `
