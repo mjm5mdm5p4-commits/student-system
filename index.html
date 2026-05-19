@@ -132,16 +132,23 @@ Welcome to our herbal wellness store 🌿
 
 </div>
 
-<!-- LOAD STORE -->
+<!-- STORE DATA -->
 <script src="store.js"></script>
 
 <script>
 
+let currentSearch = "";
+
+/* SEARCH INPUT */
+document.getElementById("search").addEventListener("input", function(e){
+    currentSearch = e.target.value.toLowerCase();
+    loadProducts();
+});
+
+/* LOAD PRODUCTS */
 function loadProducts(){
 
     let box = document.getElementById("productBox");
-    let searchValue = document.getElementById("search").value.toLowerCase();
-
     box.innerHTML = "";
 
     if(!products || products.length === 0){
@@ -150,11 +157,10 @@ function loadProducts(){
     }
 
     let filtered = products.filter(p =>
-        p.name.toLowerCase().includes(searchValue)
+        p.name.toLowerCase().includes(currentSearch)
     );
 
     filtered.forEach(p=>{
-
         box.innerHTML += `
         <div class="card">
             <img src="${p.image}">
@@ -172,6 +178,7 @@ function loadProducts(){
     });
 }
 
+/* ADD TO CART */
 function addToCart(id){
 
     let item = products.find(p => p.id === id);
@@ -188,15 +195,12 @@ function addToCart(id){
     alert("Added to cart ✅");
 }
 
-/* LIVE UPDATE */
+/* LIVE UPDATE (SAFE VERSION) */
 function startLiveUpdate(){
     setInterval(()=>{
         loadProducts();
     }, 2000);
 }
-
-/* SEARCH LIVE */
-document.getElementById("search").addEventListener("input", loadProducts);
 
 loadProducts();
 startLiveUpdate();
