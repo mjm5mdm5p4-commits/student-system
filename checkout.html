@@ -142,7 +142,16 @@ function placeOrder(){
     let name = document.getElementById("name").value;
     let phone = document.getElementById("phone").value;
     let address = document.getElementById("address").value;
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
+orders.push({
+    items: cart,
+    total: total,
+    status: "Pending",
+    date: new Date().toLocaleString()
+});
+
+localStorage.setItem("orders", JSON.stringify(orders));
     if(!name || !phone || !address){
         alert("Please fill all fields");
         return;
