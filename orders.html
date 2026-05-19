@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Orders</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f5f7fb;
+    padding:20px;
+}
+
+/* HEADER */
+h2{
+    text-align:center;
+    color:#1b5e20;
+}
+
+/* CONTAINER */
+.container{
+    max-width:700px;
+    margin:auto;
+}
+
+/* ORDER CARD */
+.order{
+    background:white;
+    padding:15px;
+    margin:15px 0;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+/* TITLE */
+.order h3{
+    margin:0;
+    color:#1b5e20;
+}
+
+/* ITEMS */
+.items{
+    margin-top:10px;
+    font-size:14px;
+    color:#444;
+}
+
+/* TOTAL */
+.total{
+    font-weight:bold;
+    margin-top:10px;
+    color:#000;
+}
+
+/* STATUS */
+.status{
+    margin-top:8px;
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:8px;
+    background:#ff9800;
+    color:white;
+    font-size:12px;
+}
+
+/* EMPTY */
+.empty{
+    text-align:center;
+    color:#777;
+    margin-top:50px;
+}
+
+/* BACK BUTTON */
+a{
+    display:block;
+    text-align:center;
+    margin-top:20px;
+    text-decoration:none;
+    color:white;
+    background:#1b5e20;
+    padding:10px;
+    border-radius:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>🧾 My Orders</h2>
+
+<div class="container" id="ordersBox"></div>
+
+<a href="index.html">⬅ Back to Store</a>
+
+<script>
+
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+let box = document.getElementById("ordersBox");
+
+function loadOrders(){
+
+    box.innerHTML = "";
+
+    if(orders.length === 0){
+        box.innerHTML = `<p class="empty">No orders yet 🛒</p>`;
+        return;
+    }
+
+    orders.reverse().forEach((order, index)=>{
+
+        let itemsHTML = "";
+
+        order.items.forEach(item=>{
+            itemsHTML += `
+                <div>
+                    ${item.name} × ${item.qty} = ₦${item.price * item.qty}
+                </div>
+            `;
+        });
+
+        box.innerHTML += `
+        <div class="order">
+            <h3>Order #${index + 1}</h3>
+
+            <div class="items">
+                ${itemsHTML}
+            </div>
+
+            <div class="total">
+                Total: ₦${order.total}
+            </div>
+
+            <div class="status">
+                ${order.status}
+            </div>
+        </div>
+        `;
+    });
+}
+
+loadOrders();
+
+</script>
+
+</body>
+</html>
