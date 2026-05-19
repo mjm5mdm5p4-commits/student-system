@@ -46,6 +46,15 @@ nav a{
     color:#333;
 }
 
+/* SEARCH */
+#search{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
 /* GRID */
 .container{
     padding:20px;
@@ -115,10 +124,15 @@ Welcome to our herbal wellness store 🌿
 </div>
 
 <div class="container">
+
+<!-- SEARCH BAR -->
+<input type="text" id="search" placeholder="Search products 🔍">
+
 <div class="grid" id="productBox"></div>
+
 </div>
 
-<!-- LOAD STORE DATA FIRST -->
+<!-- LOAD STORE -->
 <script src="store.js"></script>
 
 <script>
@@ -126,20 +140,20 @@ Welcome to our herbal wellness store 🌿
 function loadProducts(){
 
     let box = document.getElementById("productBox");
+    let searchValue = document.getElementById("search").value.toLowerCase();
+
     box.innerHTML = "";
 
     if(!products || products.length === 0){
         box.innerHTML = "<p>No products available yet.</p>";
         return;
     }
-function startLiveUpdate(){
-    setInterval(()=>{
-        loadProducts();
-    }, 2000);
-}
 
-startLiveUpdate();
-    products.forEach(p=>{
+    let filtered = products.filter(p =>
+        p.name.toLowerCase().includes(searchValue)
+    );
+
+    filtered.forEach(p=>{
 
         box.innerHTML += `
         <div class="card">
@@ -174,7 +188,18 @@ function addToCart(id){
     alert("Added to cart ✅");
 }
 
+/* LIVE UPDATE */
+function startLiveUpdate(){
+    setInterval(()=>{
+        loadProducts();
+    }, 2000);
+}
+
+/* SEARCH LIVE */
+document.getElementById("search").addEventListener("input", loadProducts);
+
 loadProducts();
+startLiveUpdate();
 
 </script>
 
