@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Your Cart</title>
+<title>Cart</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
@@ -10,8 +10,8 @@
 body{
     font-family:Arial;
     background:#f5f7fb;
+    padding:20px;
     margin:0;
-    padding:15px;
 }
 
 /* HEADER */
@@ -21,25 +21,56 @@ h2{
 }
 
 /* CART BOX */
-.card{
+.box{
+    max-width:600px;
+    margin:auto;
+}
+
+/* CARD */
+.item{
     background:white;
     padding:15px;
     margin:10px 0;
-    border-radius:12px;
+    border-radius:15px;
     box-shadow:0 5px 15px rgba(0,0,0,0.08);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
 }
 
-/* BUTTON */
+/* NAME */
+.item h3{
+    margin:0;
+}
+
+/* PRICE */
+.price{
+    color:#1b5e20;
+    font-weight:bold;
+}
+
+/* QTY CONTROLS */
+.controls{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:10px;
+}
+
+/* BUTTONS */
 button{
-    background:#e53935;
-    color:white;
-    border:none;
     padding:8px 12px;
+    border:none;
     border-radius:8px;
     cursor:pointer;
+    font-weight:bold;
+}
+
+.add{
+    background:#1b5e20;
+    color:white;
+}
+
+.remove{
+    background:#d32f2f;
+    color:white;
 }
 
 /* TOTAL */
@@ -51,27 +82,16 @@ button{
     color:#1b5e20;
 }
 
-/* CHECKOUT BUTTON */
+/* CHECKOUT */
 .checkout{
-    display:block;
-    text-align:center;
-    background:#1b5e20;
-    color:white;
-    padding:12px;
+    width:100%;
     margin-top:20px;
+    padding:12px;
+    background:linear-gradient(135deg,#1b5e20,#43a047);
+    color:white;
+    border:none;
     border-radius:10px;
-    text-decoration:none;
-    font-weight:bold;
-}
-
-.checkout:hover{
-    background:#2e7d32;
-}
-
-.empty{
-    text-align:center;
-    color:#777;
-    margin-top:30px;
+    font-size:16px;
 }
 
 </style>
@@ -81,52 +101,89 @@ button{
 
 <h2>🛒 Your Cart</h2>
 
-<div id="cartBox"></div>
+<div class="box" id="cartBox"></div>
 
 <div class="total" id="total"></div>
 
-<a class="checkout" href="checkout.html">Proceed to Checkout</a>
+<button class="checkout" onclick="goCheckout()">
+Proceed to Checkout 📲
+</button>
+
+<script src="store.js"></script>
 
 <script>
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-let box = document.getElementById("cartBox");
-let total = 0;
-
 function renderCart(){
 
+    let box = document.getElementById("cartBox");
     box.innerHTML = "";
-    total = 0;
+
+    let total = 0;
 
     if(cart.length === 0){
-        box.innerHTML = "<p class='empty'>Your cart is empty 🛒</p>";
+        box.innerHTML = "<p style='text-align:center'>Cart is empty 🛒</p>";
         document.getElementById("total").innerText = "";
         return;
     }
 
-    cart.forEach((item, i)=>{
-        total += item.price * (item.qty || 1);
+    cart.forEach((item, index)=>{
+
+        let qty = item.qty || 1;
+        let sub = item.price * qty;
+
+        total += sub;
 
         box.innerHTML += `
-        <div class="card">
-            <div>
-                <b>${item.name}</b><br>
-                ₦${item.price} × ${item.qty || 1}
-            </div>
+        <div class="item">
+            <h3>${item.name}</h3>
+            <p class="price">₦${item.price} × ${qty} = ₦${sub}</p>
 
-            <button onclick="removeItem(${i})">Remove</button>
+            <div class="controls">
+
+                <button class="remove" onclick="decrease(${index})">-</button>
+
+                <span><b>${qty}</b></span>
+
+                <button class="add" onclick="increase(${index})">+</button>
+
+                <button class="remove" onclick="removeItem(${index})">Remove</button>
+
+            </div>
         </div>
         `;
     });
 
     document.getElementById("total").innerText = "Total: ₦" + total;
+
+    saveCart();
 }
 
+/* + INCREASE */
+function increase(i){
+    cart[i].qty += 1;
+    renderCart();
+}
+
+/* - DECREASE */
+function decrease(i){
+    cart[i].qty -= 1;
+
+    if(cart[i].qty <= 0){
+        cart.splice(i,1);
+    }
+
+    renderCart();
+}
+
+/* REMOVE */
 function removeItem(i){
     cart.splice(i,1);
-    localStorage.setItem("cart", JSON.stringify(cart));
     renderCart();
+}
+
+/* CHECKOUT */
+function goCheckout(){
+    window.location.href = "checkout.html";
 }
 
 renderCart();
