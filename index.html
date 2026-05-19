@@ -76,6 +76,45 @@ nav a{
     color:#555;
 }
 
+/* SLIDER */
+.slider{
+    max-width:900px;
+    margin:20px auto;
+    background:white;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    overflow:hidden;
+}
+
+.slide{
+    display:none;
+    padding:25px;
+    text-align:center;
+    animation:fade 0.4s ease-in-out;
+}
+
+.slide.active{
+    display:block;
+}
+
+.slide h2{
+    color:#1b5e20;
+}
+
+.slide p{
+    color:#444;
+    line-height:1.6;
+}
+
+.slide.warning{
+    border-left:5px solid #ff9800;
+}
+
+@keyframes fade{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
 /* CONTAINER */
 .container{
     padding:20px;
@@ -114,7 +153,6 @@ nav a{
     transform:translateY(-6px);
 }
 
-/* IMAGE */
 .card img{
     width:100%;
     height:180px;
@@ -122,13 +160,11 @@ nav a{
     border-radius:12px;
 }
 
-/* TITLE */
 .card h3{
     font-size:16px;
     margin:10px 0;
 }
 
-/* PRICE */
 .price{
     color:#1b5e20;
     font-weight:bold;
@@ -151,29 +187,6 @@ button:hover{
     opacity:0.9;
 }
 
-/* TRUST SECTION */
-.trust-box{
-    background:white;
-    padding:20px;
-    margin:20px;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.08);
-}
-
-.trust-box h2{
-    color:#1b5e20;
-    margin-bottom:10px;
-}
-
-.trust-box p{
-    color:#444;
-    line-height:1.6;
-}
-
-.warning{
-    border-left:5px solid #ff9800;
-}
-
 /* DARK MODE */
 .dark{
     background:#121212;
@@ -182,7 +195,7 @@ button:hover{
 
 .dark .card,
 .dark .hero,
-.dark .trust-box{
+.dark .slider{
     background:#1e1e1e;
     color:white;
 }
@@ -243,52 +256,53 @@ button:hover{
     <p>Pure herbal solutions for strength, balance & wellness</p>
 </div>
 
+<!-- SLIDER (NEW) -->
+<div class="slider">
+
+    <div class="slide active">
+        <h2>🌿 About Us</h2>
+        <p>
+            Bikeh Herbal Therapy Store provides natural herbal wellness support products
+            designed to help balance the body and improve overall wellness.
+        </p>
+    </div>
+
+    <div class="slide">
+        <h2>📦 How It Works</h2>
+        <p>
+            1. Browse products<br>
+            2. Add to cart 🛒<br>
+            3. Checkout via WhatsApp 📲<br>
+            4. We deliver to you
+        </p>
+    </div>
+
+    <div class="slide">
+        <h2>📞 Contact Us</h2>
+        <p>
+            WhatsApp Orders: +234 704 443 4241<br>
+            Available: Mon - Sat | 9AM - 6PM
+        </p>
+    </div>
+
+    <div class="slide warning">
+        <h2>⚠️ Disclaimer</h2>
+        <p>
+            Herbal products are traditional wellness support items.
+            Results may vary from person to person.
+        </p>
+    </div>
+
+</div>
+
 <div class="container">
 
-<!-- SEARCH -->
 <input type="text" id="search" placeholder="Search products 🔍">
 
-<!-- PRODUCTS -->
 <div class="grid" id="productBox"></div>
 
 </div>
 
-<!-- TRUST SECTION -->
-<div class="trust-box">
-    <h2>🌿 About Us</h2>
-    <p>
-        Bikeh Herbal Therapy Store provides natural herbal wellness support products
-        designed to help balance the body, boost strength, and improve overall wellness.
-    </p>
-</div>
-
-<div class="trust-box">
-    <h2>📦 How It Works</h2>
-    <p>
-        1. Browse products on our store<br>
-        2. Add items to your cart 🛒<br>
-        3. Go to checkout and place your order via WhatsApp 📲<br>
-        4. We deliver your product to you
-    </p>
-</div>
-
-<div class="trust-box">
-    <h2>📞 Contact Us</h2>
-    <p>
-        WhatsApp Orders: <b>+234 7044434241</b><br>
-        Available: Mon - Sat | 9AM - 6PM
-    </p>
-</div>
-
-<div class="trust-box warning">
-    <h2>⚠️ Disclaimer</h2>
-    <p>
-        Our herbal products are traditional wellness support items.
-        Results may vary from person to person.
-    </p>
-</div>
-
-<!-- POPUP -->
 <div id="popup"></div>
 
 <script src="store.js"></script>
@@ -303,16 +317,30 @@ document.getElementById("search").addEventListener("input", function(e){
     loadProducts();
 });
 
+/* SLIDER */
+let currentSlide = 0;
+
+function showSlides(){
+    let slides = document.querySelectorAll(".slide");
+
+    slides.forEach(s => s.classList.remove("active"));
+
+    currentSlide++;
+
+    if(currentSlide > slides.length){
+        currentSlide = 1;
+    }
+
+    slides[currentSlide - 1].classList.add("active");
+}
+
+setInterval(showSlides, 4000);
+
 /* LOAD PRODUCTS */
 function loadProducts(){
 
     let box = document.getElementById("productBox");
     box.innerHTML = "";
-
-    if(!products || products.length === 0){
-        box.innerHTML = "<p>No products available yet.</p>";
-        return;
-    }
 
     let filtered = products.filter(p =>
         p.name.toLowerCase().includes(currentSearch)
@@ -336,7 +364,7 @@ function loadProducts(){
     });
 }
 
-/* ADD TO CART */
+/* CART */
 function addToCart(id){
 
     let item = products.find(p => p.id === id);
@@ -354,7 +382,7 @@ function addToCart(id){
     showPopup(item.name + " added to cart 🛒");
 }
 
-/* POPUP FUNCTION */
+/* POPUP */
 function showPopup(message){
 
     let popup = document.getElementById("popup");
@@ -369,30 +397,18 @@ function showPopup(message){
 
 /* DARK MODE */
 function toggleDarkMode(){
-
     document.body.classList.toggle("dark");
 
-    if(document.body.classList.contains("dark")){
-        localStorage.setItem("darkMode", "on");
-    } else {
-        localStorage.setItem("darkMode", "off");
-    }
+    localStorage.setItem("darkMode",
+        document.body.classList.contains("dark") ? "on" : "off"
+    );
 }
 
-/* LOAD DARK MODE */
 if(localStorage.getItem("darkMode") === "on"){
     document.body.classList.add("dark");
 }
 
-/* LIVE UPDATE */
-function startLiveUpdate(){
-    setInterval(()=>{
-        loadProducts();
-    }, 2000);
-}
-
 loadProducts();
-startLiveUpdate();
 
 </script>
 
