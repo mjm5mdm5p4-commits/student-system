@@ -13,17 +13,50 @@ body{
     transition:0.3s;
 }
 
-/* HEADER */
+/* HEADER (PREMIUM) */
 header{
-    background:linear-gradient(135deg,#1b5e20,#43a047);
+    background: linear-gradient(135deg,#0d3d12,#1b5e20,#43a047);
+    background-size: 200% 200%;
+    animation: bgMove 8s ease infinite;
     color:white;
     padding:50px 20px;
     text-align:center;
 }
 
-header h1{
+/* BACKGROUND ANIMATION */
+@keyframes bgMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* HERO TITLE */
+.hero-title h1{
     margin:0;
-    font-size:30px;
+    font-size:32px;
+    letter-spacing:1px;
+    animation: floatText 3s ease-in-out infinite;
+}
+
+/* FLOAT EFFECT */
+@keyframes floatText{
+    0%{transform:translateY(0px);}
+    50%{transform:translateY(-5px);}
+    100%{transform:translateY(0px);}
+}
+
+/* SHINE LINE */
+.shine-line{
+    width:120px;
+    height:3px;
+    margin:10px auto 0;
+    background:linear-gradient(90deg,transparent,#fff,transparent);
+    animation: shine 2s infinite;
+}
+
+@keyframes shine{
+    0%{transform:translateX(-100%);}
+    100%{transform:translateX(100%);}
 }
 
 header p{
@@ -41,18 +74,6 @@ nav a{
     text-decoration:none;
     margin:10px;
     font-weight:bold;
-}
-
-/* DARK BUTTON */
-#darkBtn{
-    width:auto;
-    padding:10px 15px;
-    background:black;
-    color:white;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    margin-bottom:15px;
 }
 
 /* HERO */
@@ -74,45 +95,6 @@ nav a{
 .hero p{
     margin-top:10px;
     color:#555;
-}
-
-/* SLIDER */
-.slider{
-    max-width:900px;
-    margin:20px auto;
-    background:white;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.08);
-    overflow:hidden;
-}
-
-.slide{
-    display:none;
-    padding:25px;
-    text-align:center;
-    animation:fade 0.4s ease-in-out;
-}
-
-.slide.active{
-    display:block;
-}
-
-.slide h2{
-    color:#1b5e20;
-}
-
-.slide p{
-    color:#444;
-    line-height:1.6;
-}
-
-.slide.warning{
-    border-left:5px solid #ff9800;
-}
-
-@keyframes fade{
-    from{opacity:0;}
-    to{opacity:1;}
 }
 
 /* CONTAINER */
@@ -153,6 +135,7 @@ nav a{
     transform:translateY(-6px);
 }
 
+/* IMAGE */
 .card img{
     width:100%;
     height:180px;
@@ -160,11 +143,13 @@ nav a{
     border-radius:12px;
 }
 
+/* TITLE */
 .card h3{
     font-size:16px;
     margin:10px 0;
 }
 
+/* PRICE */
 .price{
     color:#1b5e20;
     font-weight:bold;
@@ -187,44 +172,27 @@ button:hover{
     opacity:0.9;
 }
 
-/* DARK MODE */
-.dark{
-    background:#121212;
-    color:white;
+/* TRUST SECTION */
+.trust-box{
+    background:white;
+    padding:20px;
+    margin:20px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
 
-.dark .card,
-.dark .hero,
-.dark .slider{
-    background:#1e1e1e;
-    color:white;
+.trust-box h2{
+    color:#1b5e20;
+    margin-bottom:10px;
 }
 
-.dark p,
-.dark h2,
-.dark h3{
-    color:white;
+.trust-box p{
+    color:#444;
+    line-height:1.6;
 }
 
-.dark #search{
-    background:#222;
-    color:white;
-    border:1px solid #444;
-}
-
-/* POPUP */
-#popup{
-    position:fixed;
-    top:20px;
-    right:20px;
-    background:#1b5e20;
-    color:white;
-    padding:15px 20px;
-    border-radius:10px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
-    display:none;
-    z-index:999;
-    font-weight:bold;
+.warning{
+    border-left:5px solid #ff9800;
 }
 
 </style>
@@ -234,12 +202,12 @@ button:hover{
 
 <header>
 
-<h1>🌿 BIKEH HERBAL THERAPY STORE</h1>
-<p>Your natural path to balance, wellness & vitality</p>
+<div class="hero-title">
+    <h1>🌿 BIKEH HERBAL THERAPY STORE</h1>
+    <div class="shine-line"></div>
+</div>
 
-<button onclick="toggleDarkMode()" id="darkBtn">
-🌙 Dark Mode
-</button>
+<p>Your natural path to balance, wellness & vitality</p>
 
 <nav>
 <a href="index.html">Home</a>
@@ -256,54 +224,39 @@ button:hover{
     <p>Pure herbal solutions for strength, balance & wellness</p>
 </div>
 
-<!-- SLIDER (NEW) -->
-<div class="slider">
-
-    <div class="slide active">
-        <h2>🌿 About Us</h2>
-        <p>
-            Bikeh Herbal Therapy Store provides natural herbal wellness support products
-            designed to help balance the body and improve overall wellness.
-        </p>
-    </div>
-
-    <div class="slide">
-        <h2>📦 How It Works</h2>
-        <p>
-            1. Browse products<br>
-            2. Add to cart 🛒<br>
-            3. Checkout via WhatsApp 📲<br>
-            4. We deliver to you
-        </p>
-    </div>
-
-    <div class="slide">
-        <h2>📞 Contact Us</h2>
-        <p>
-            WhatsApp Orders: +234 704 443 4241<br>
-            Available: Mon - Sat | 9AM - 6PM
-        </p>
-    </div>
-
-    <div class="slide warning">
-        <h2>⚠️ Disclaimer</h2>
-        <p>
-            Herbal products are traditional wellness support items.
-            Results may vary from person to person.
-        </p>
-    </div>
-
-</div>
-
 <div class="container">
 
+<!-- SEARCH -->
 <input type="text" id="search" placeholder="Search products 🔍">
 
+<!-- PRODUCTS -->
 <div class="grid" id="productBox"></div>
 
 </div>
 
-<div id="popup"></div>
+<!-- TRUST -->
+<div class="trust-box">
+    <h2>🌿 About Us</h2>
+    <p>
+        Bikeh Herbal Therapy Store provides natural herbal wellness support products
+        designed to help balance the body, boost strength, and improve overall wellness.
+    </p>
+</div>
+
+<div class="trust-box">
+    <h2>📦 How It Works</h2>
+    <p>
+        1. Browse products<br>
+        2. Add to cart 🛒<br>
+        3. Checkout via WhatsApp 📲<br>
+        4. We deliver to you
+    </p>
+</div>
+
+<div class="trust-box">
+    <h2>📞 Contact</h2>
+    <p>WhatsApp: +234 7044434241</p>
+</div>
 
 <script src="store.js"></script>
 
@@ -316,25 +269,6 @@ document.getElementById("search").addEventListener("input", function(e){
     currentSearch = e.target.value.toLowerCase();
     loadProducts();
 });
-
-/* SLIDER */
-let currentSlide = 0;
-
-function showSlides(){
-    let slides = document.querySelectorAll(".slide");
-
-    slides.forEach(s => s.classList.remove("active"));
-
-    currentSlide++;
-
-    if(currentSlide > slides.length){
-        currentSlide = 1;
-    }
-
-    slides[currentSlide - 1].classList.add("active");
-}
-
-setInterval(showSlides, 4000);
 
 /* LOAD PRODUCTS */
 function loadProducts(){
@@ -352,6 +286,7 @@ function loadProducts(){
             <img src="${p.image || 'https://via.placeholder.com/150'}">
             <h3>${p.name}</h3>
             <p class="price">₦${p.price}</p>
+
             <p style="font-size:13px;color:#555;">
                 ${p.description || ""}
             </p>
@@ -378,34 +313,7 @@ function addToCart(id){
     }
 
     saveCart();
-
-    showPopup(item.name + " added to cart 🛒");
-}
-
-/* POPUP */
-function showPopup(message){
-
-    let popup = document.getElementById("popup");
-
-    popup.innerText = message;
-    popup.style.display = "block";
-
-    setTimeout(()=>{
-        popup.style.display = "none";
-    }, 2000);
-}
-
-/* DARK MODE */
-function toggleDarkMode(){
-    document.body.classList.toggle("dark");
-
-    localStorage.setItem("darkMode",
-        document.body.classList.contains("dark") ? "on" : "off"
-    );
-}
-
-if(localStorage.getItem("darkMode") === "on"){
-    document.body.classList.add("dark");
+    alert("Added to cart ✅");
 }
 
 loadProducts();
