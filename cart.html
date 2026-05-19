@@ -1,161 +1,135 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-<title>Cart</title>
+<title>Your Cart</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
+
 body{
     font-family:Arial;
-    background:#f4f6fb;
-    padding:20px;
+    background:#f5f7fb;
+    margin:0;
+    padding:15px;
 }
 
+/* HEADER */
+h2{
+    text-align:center;
+    color:#1b5e20;
+}
+
+/* CART BOX */
 .card{
     background:white;
     padding:15px;
     margin:10px 0;
-    border-radius:10px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
     display:flex;
     justify-content:space-between;
     align-items:center;
 }
 
+/* BUTTON */
 button{
-    background:red;
+    background:#e53935;
     color:white;
     border:none;
-    padding:8px;
-    border-radius:6px;
+    padding:8px 12px;
+    border-radius:8px;
     cursor:pointer;
 }
 
+/* TOTAL */
+.total{
+    font-size:20px;
+    font-weight:bold;
+    text-align:center;
+    margin-top:20px;
+    color:#1b5e20;
+}
+
+/* CHECKOUT BUTTON */
 .checkout{
+    display:block;
+    text-align:center;
     background:#1b5e20;
     color:white;
     padding:12px;
-    border:none;
-    width:100%;
     margin-top:20px;
-    border-radius:8px;
-    font-size:16px;
-}
-
-.total{
-    font-size:22px;
+    border-radius:10px;
+    text-decoration:none;
     font-weight:bold;
-    margin-top:15px;
 }
 
-input{
-    width:100%;
-    padding:10px;
-    margin:5px 0;
+.checkout:hover{
+    background:#2e7d32;
 }
+
+.empty{
+    text-align:center;
+    color:#777;
+    margin-top:30px;
+}
+
 </style>
 </head>
 
 <body>
 
-<h2>Your Cart 🛒</h2>
+<h2>🛒 Your Cart</h2>
 
-<div id="cart"></div>
+<div id="cartBox"></div>
 
-<h3 id="total"></h3>
+<div class="total" id="total"></div>
 
-<!-- CHECKOUT FORM -->
-<h3>Checkout Details</h3>
-
-<input id="name" placeholder="Your Name">
-<input id="address" placeholder="Delivery Address">
-<input id="phone" placeholder="Phone Number">
-
-<button class="checkout" onclick="sendToWhatsApp()">
-    Place Order on WhatsApp 📲
-</button>
+<a class="checkout" href="checkout.html">Proceed to Checkout</a>
 
 <script>
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-let adminWhatsApp = "2349033350425";
+let box = document.getElementById("cartBox");
+let total = 0;
 
-let deliveryFee = 2000;
-
-let box = document.getElementById("cart");
-
-function render(){
+function renderCart(){
 
     box.innerHTML = "";
-    let total = 0;
+    total = 0;
+
+    if(cart.length === 0){
+        box.innerHTML = "<p class='empty'>Your cart is empty 🛒</p>";
+        document.getElementById("total").innerText = "";
+        return;
+    }
 
     cart.forEach((item, i)=>{
+        total += item.price * (item.qty || 1);
 
-        total += item.price * item.qty;
+        box.innerHTML += `
+        <div class="card">
+            <div>
+                <b>${item.name}</b><br>
+                ₦${item.price} × ${item.qty || 1}
+            </div>
 
-        let div = document.createElement("div");
-        div.className = "card";
-
-        div.innerHTML = `
-            <span>${item.name} (x${item.qty}) - ₦${item.price * item.qty}</span>
             <button onclick="removeItem(${i})">Remove</button>
+        </div>
         `;
-
-        box.appendChild(div);
     });
 
-    document.getElementById("total").innerText = "Subtotal: ₦" + total;
+    document.getElementById("total").innerText = "Total: ₦" + total;
 }
 
 function removeItem(i){
     cart.splice(i,1);
     localStorage.setItem("cart", JSON.stringify(cart));
-    render();
+    renderCart();
 }
 
-function sendToWhatsApp(){
-
-    let name = document.getElementById("name").value;
-    let address = document.getElementById("address").value;
-    let phone = document.getElementById("phone").value;
-
-    let message = "Hello Admin, I want to order:%0A%0A";
-
-    let total = 0;
-let order = {
-    id: Date.now(),
-    name: name,
-    phone: phone,
-    address: address,
-    items: cart,
-    total: total
-};
-
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
-orders.push(order);
-localStorage.setItem("orders", JSON.stringify(orders));
-    cart.forEach(item => {
-        let itemTotal = item.price * item.qty;
-        total += itemTotal;
-
-        message += "- " + item.name + " x" + item.qty + " (₦" + itemTotal + ")%0A";
-    });
-
-    total += deliveryFee;
-
-    message += "%0ADelivery Fee: ₦" + deliveryFee;
-    message += "%0ATotal: ₦" + total;
-
-    message += "%0A%0AName: " + name;
-    message += "%0AAddress: " + address;
-    message += "%0APhone: " + phone;
-
-    let url = "https://wa.me/" + adminWhatsApp + "?text=" + message;
-
-    window.open(url, "_blank");
-}
-
-render();
+renderCart();
 
 </script>
 
