@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Receipt</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+    margin:0;
+    padding:20px;
+    font-family:Arial;
+    background:#f5f7fb;
+}
+
+.receipt{
+    max-width:600px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+h1{
+    text-align:center;
+    color:#1b5e20;
+}
+
+.line{
+    border-top:1px dashed #999;
+    margin:15px 0;
+}
+
+.item{
+    margin-top:10px;
+    padding:10px;
+    background:#f9f9f9;
+    border-radius:10px;
+}
+
+.total{
+    font-size:22px;
+    font-weight:bold;
+    color:#1b5e20;
+    margin-top:20px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    margin-top:20px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(135deg,#1b5e20,#43a047);
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="receipt">
+
+    <h1>🧾 Receipt</h1>
+
+    <div class="line"></div>
+
+    <p><b>Name:</b> <span id="rName"></span></p>
+
+    <p><b>Phone:</b> <span id="rPhone"></span></p>
+
+    <p><b>Address:</b> <span id="rAddress"></span></p>
+
+    <p><b>Date:</b> <span id="rDate"></span></p>
+
+    <div class="line"></div>
+
+    <h3>📦 Ordered Products</h3>
+
+    <div id="itemsBox"></div>
+
+    <div class="total" id="total"></div>
+
+    <button onclick="window.print()">
+        Print Receipt 🖨️
+    </button>
+
+</div>
+
+<script>
+
+let receipt =
+    JSON.parse(localStorage.getItem("receipt"));
+
+if(receipt){
+
+    document.getElementById("rName").innerText =
+        receipt.name;
+
+    document.getElementById("rPhone").innerText =
+        receipt.phone;
+
+    document.getElementById("rAddress").innerText =
+        receipt.address;
+
+    document.getElementById("rDate").innerText =
+        receipt.date;
+
+    let box = document.getElementById("itemsBox");
+
+    let total = 0;
+
+    receipt.items.forEach(item => {
+
+        let sub = item.price * item.qty;
+
+        total += sub;
+
+        box.innerHTML += `
+        <div class="item">
+
+            <b>${item.name}</b><br>
+
+            ₦${item.price} × ${item.qty}
+
+            = ₦${sub}
+
+        </div>
+        `;
+    });
+
+    document.getElementById("total").innerText =
+        "Total: ₦" + total;
+}
+
+</script>
+
+</body>
+</html>
