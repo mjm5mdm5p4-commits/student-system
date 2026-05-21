@@ -69,6 +69,11 @@ button:hover{
     opacity:0.9;
 }
 
+.item{
+    padding:10px 0;
+    border-bottom:1px solid #ddd;
+}
+
 </style>
 </head>
 
@@ -78,22 +83,27 @@ button:hover{
 
 <div class="box">
 
-<input type="text" id="name" placeholder="Your Full Name">
-<input type="tel" id="phone" placeholder="Phone Number">
-<textarea id="address" placeholder="Delivery Address"></textarea>
+    <input type="text" id="name" placeholder="Your Full Name">
 
-<div class="orderBox" id="orderBox"></div>
-<div class="total" id="total"></div>
+    <input type="tel" id="phone" placeholder="Phone Number">
 
-<button onclick="placeOrder()">
-Place Order via WhatsApp 📲
-</button>
+    <textarea id="address" placeholder="Delivery Address"></textarea>
+
+    <div class="orderBox" id="orderBox"></div>
+
+    <div class="total" id="total"></div>
+
+    <button onclick="placeOrder()">
+        Place Order via WhatsApp 📲
+    </button>
 
 </div>
 
 <script>
 
+/* LOAD CART */
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
 let orderBox = document.getElementById("orderBox");
 
 /* LOAD ORDER */
@@ -102,25 +112,35 @@ function loadOrder(){
     orderBox.innerHTML = "";
 
     if(cart.length === 0){
-        orderBox.innerHTML = "<p>Your cart is empty 🛒</p>";
+
+        orderBox.innerHTML =
+        "<p>Your cart is empty 🛒</p>";
+
         document.getElementById("total").innerText = "";
+
         return;
     }
 
     let total = 0;
 
-    cart.forEach(item=>{
+    cart.forEach(item => {
 
         let qty = item.qty || 1;
+
         let sub = item.price * qty;
 
         total += sub;
 
         orderBox.innerHTML += `
-            <p>
-                <b>${item.name}</b><br>
-                ₦${item.price} × ${qty} = ₦${sub}
-            </p>
+        <div class="item">
+
+            <b>${item.name}</b><br>
+
+            ₦${item.price} × ${qty}
+
+            = ₦${sub}
+
+        </div>
         `;
     });
 
@@ -131,23 +151,39 @@ function loadOrder(){
 /* PLACE ORDER */
 function placeOrder(){
 
-    let name = document.getElementById("name").value;
-    let phone = document.getElementById("phone").value;
-    let address = document.getElementById("address").value;
+    let name =
+        document.getElementById("name").value;
+
+    let phone =
+        document.getElementById("phone").value;
+
+    let address =
+        document.getElementById("address").value;
 
     if(!name || !phone || !address){
+
         alert("Please fill all fields");
+
         return;
     }
 
-    // Recalculate total correctly
+    if(cart.length === 0){
+
+        alert("Cart is empty");
+
+        return;
+    }
+
     let total = 0;
-    cart.forEach(item=>{
+
+    cart.forEach(item => {
         total += item.price * (item.qty || 1);
     });
 
-    /* SAVE ORDER (FIXED) */
-    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    /* SAVE ORDER */
+
+    let orders =
+        JSON.parse(localStorage.getItem("orders")) || [];
 
     orders.push({
         items: cart,
@@ -156,9 +192,13 @@ function placeOrder(){
         date: new Date().toLocaleString()
     });
 
-    localStorage.setItem("orders", JSON.stringify(orders));
+    localStorage.setItem(
+        "orders",
+        JSON.stringify(orders)
+    );
 
     /* WHATSAPP MESSAGE */
+
     let message = `🌿 NEW ORDER
 
 👤 Name: ${name}
@@ -168,15 +208,15 @@ function placeOrder(){
 📦 Order Items:
 `;
 
-    cart.forEach(item=>{
+    cart.forEach(item => {
+
         message += `- ${item.name}
-  ₦${item.price} × ${item.qty || 1}
+₦${item.price} × ${item.qty || 1}
+
 `;
     });
 
-    message += `
-
-💰 Total: ₦${total}
+    message += `💰 Total: ₦${total}
 
 Thank you for shopping with Bikeh Herbal Therapy Store 🌿`;
 
@@ -184,22 +224,36 @@ Thank you for shopping with Bikeh Herbal Therapy Store 🌿`;
     "https://wa.me/2347044434241?text=" +
     encodeURIComponent(message);
 
+    /* OPEN WHATSAPP */
+
     window.open(whatsappURL, "_blank");
+
+    /* SAVE RECEIPT */
+
+    localStorage.setItem("receipt", JSON.stringify({
+        name:name,
+        phone:phone,
+        address:address,
+        items:cart,
+        total:total,
+        date:new Date().toLocaleString()
+    }));
+
+    /* CLEAR CART */
+
+    localStorage.removeItem("cart");
+
+    /* OPEN RECEIPT PAGE */
+
+    setTimeout(() => {
+
+        window.location.href = "receipt.html";
+
+    }, 1000);
 }
-/* SAVE RECEIPT */
 
-localStorage.setItem("receipt", JSON.stringify({
-    name:name,
-    phone:phone,
-    address:address,
-    items:cart,
-    total:total,
-    date:new Date().toLocaleString()
-}));
+/* START */
 
-/* OPEN RECEIPT PAGE */
-
-window.location.href = "receipt.html";
 loadOrder();
 
 </script>
