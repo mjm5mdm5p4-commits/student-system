@@ -229,15 +229,21 @@ Thank you for shopping with Bikeh Herbal Therapy Store 🌿`;
     window.open(whatsappURL, "_blank");
 
     /* SAVE RECEIPT */
+localStorage.setItem("receipt", JSON.stringify({
 
-    localStorage.setItem("receipt", JSON.stringify({
-        name:name,
-        phone:phone,
-        address:address,
-        items:cart,
-        total:total,
-        date:new Date().toLocaleString()
-    }));
+    name: document.getElementById("name").value,
+
+    phone: document.getElementById("phone").value,
+
+    address: document.getElementById("address").value,
+
+    items: cart,
+
+    total: total,
+
+    date: new Date().toLocaleString()
+
+}));
 
     /* CLEAR CART */
 
